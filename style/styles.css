@@ -39,10 +39,15 @@ body {
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 3vw;
   padding-inline: 3vw;
   box-sizing: border-box;
   z-index: 10;
+}
+
+.site-nav__link--home {
+  margin-right: auto;
 }
 
 .site-nav__link {
@@ -69,7 +74,203 @@ body {
   margin-top: 12.6vh;
   display: inline-flex;
   align-items: center;
+  gap: 28px;
+}
+
+.social-links--footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 8vh;
+}
+
+.about {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6vw;
+  padding: 12vh 6vw;
+  box-sizing: border-box;
+}
+
+/*
+  Foto + panel
+  ------------
+  La foto es un recorte (PNG con alpha, ratio 525/640 = 1.219 de alto).
+  Se dimensiona SIEMPRE por ancho (--photo-w) para que escale igual en
+  cualquier viewport. El panel es 16/9 (56.25% de su ancho).
+
+  Desborde superior = --photo-w * 1.219 - 56.25%
+  Con --photo-w: 78%  ->  95.08% - 56.25% = 38.8%
+
+  OJO: el padding en % se resuelve contra el ancho del BLOQUE CONTENEDOR,
+  no contra el ancho del propio elemento. En desktop la columna es más
+  estrecha que .about, así que la reserva se calcula en px sobre
+  --photo-col; en mobile la columna ocupa el 100% del contenedor y ahí
+  el % sí es equivalente.
+*/
+.about-photo {
+  --photo-w: 78%;
+  position: relative;
+  flex: 0 0 var(--photo-col, 480px);
+  width: var(--photo-col, auto);
+  max-width: 100%;
+  /* reserva el alto que la cabeza sobresale por encima del panel */
+  padding-top: calc(var(--photo-col, 480px) * 0.388);
+}
+
+/* panel de fondo: el recuadro degradado (en flujo, define el alto real) */
+.about-photo__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  /* termina en el mismo negro sólido del body (#000), no en transparente:
+     un alpha-fade revela lo que haya detrás y puede leerse distinto según
+     compositing/viewport; con un stop sólido siempre da el mismo negro. */
+  background: linear-gradient(180deg, rgba(75, 75, 75, 1) 0%, #000 100%);
+  z-index: 1;
+}
+
+/* la foto NO se clipa: desborda el panel por arriba, anclada a su base */
+.about-photo__img-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.about-photo__img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+  width: var(--photo-w);
+  max-width: none;
+  height: auto;
+  filter: grayscale(1);
+}
+
+.about-photo__frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.25;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.about-content {
+  flex: 1 1 420px;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
+  width: 100%;
+}
+
+.about-text p {
+  margin: 0;
+  font-family: "Inter";
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  color: #DCDCDC;
+  text-align: left;
+}
+
+.about-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-family: "Inter";
+  font-size: 24px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.about-toggle:hover {
+  color: #A19BFF;
+}
+
+/*
+  Desktop: el texto se alinea al centro del PANEL, no al centro del bloque
+  foto+desborde. Como el flex centra el item completo, hay que bajar el texto
+  la mitad del desborde superior (38.8% / 2 = 19.4% del ancho de la columna).
+*/
+@media (min-width: 901px) {
+  .about {
+    --photo-col: min(560px, 42vw);
+    /*
+      OJO: align-items debe seguir siendo "center" (heredado de la regla
+      base). Con align-items:flex-start las dos columnas arrancan en el
+      mismo Y, pero como tienen alturas distintas (la foto incluye el
+      desborde de la cabeza, el texto no) el translateY de abajo ya no
+      compensa bien y el texto queda descolgado respecto al panel.
+      Con "center", flexbox centra cada columna dentro de la misma altura
+      de línea, y ese centrado ya absorbe la diferencia de alturas — el
+      translateY solo corrige el offset cabeza/panel encima de eso.
+      Para "subir todo" tocamos el alto/relleno de .about, NUNCA align-items.
+    */
+    min-height: 82vh;
+    padding-top: 6vh;
+    padding-bottom: 6vh;
+  }
+
+  .about-content {
+    /* columna más ancha => menos líneas => el bloque cabe dentro del panel */
+    max-width: 680px;
+    gap: 24px;
+    transform: translateY(calc(var(--photo-col) * 0.194));
+  }
+}
+
+@media (max-width: 900px) {
+  .about {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 40px;
+    padding: 16vh 6vw 8vh;
+  }
+
+  .about-photo {
+    /* menos desborde en pantallas estrechas: 72% * 1.219 - 56.25% = 31.5% */
+    --photo-w: 72%;
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+    /* aquí la columna == ancho del contenedor, el % es correcto */
+    padding-top: 31.5%;
+  }
+
+  .about-content {
+    flex: 0 0 auto;
+    max-width: 100%;
+    align-items: flex-start;
+  }
+
+  .about-content .about-toggle {
+    align-self: center;
+  }
+
+  .about-text p {
+    font-size: 18px;
+  }
 }
 
 .social-link {
