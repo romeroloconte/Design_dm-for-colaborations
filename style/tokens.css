@@ -43,11 +43,6 @@
   --font-display-stretch:  100%;
   --font-display-tracking: -0.02em;
 
-  /*
-    Rol heading (18px). Tracking propio, no el del display: el negativo
-    calibrado para 7vw aprieta a tamaño de cuerpo. Inter a 18px pide poco
-    aire, es una grotesca pensada para UI.
-  */
   --font-heading-weight:   600;
   --font-heading-stretch:  100%;
   --font-heading-tracking: 0.04em;
@@ -56,17 +51,6 @@
   --photo-grayscale:   1;
   --photo-src: url("../resources/luis-romero-dark.png");
 
-  /*
-    Diagramas. Cada theme apunta a su propio par de assets, siempre: el
-    contrato es uniforme y sustituir un export no obliga a tocar este
-    archivo.
-
-    Nota para el futuro: hoy sitemap-dark y sitemap-light son idénticos
-    byte a byte. Es esperable, no un error — las cajas llevan relleno
-    opaco y no dependen del canvas, así que lo único theme-dependiente es
-    el texto suelto sobre el fondo, y el sitemap no tiene ninguno. En el
-    flow sí (las dos etiquetas "No": #C4C4C4 en dark, #252525 en light).
-  */
   --diagram-sitemap-src: url("../resources/diagram-sitemap-dark.png");
   --diagram-flow-src:    url("../resources/diagram-flow-dark.png");
   --mockup-screens-src:  url("../resources/mockup-screens-dark.png");
@@ -90,15 +74,6 @@
   --font-display-stretch:  100%;
   --font-display-tracking: -0.005em;
 
-  /*
-    Clash es una display: fuera de su tamaño natural se cierra bastante.
-    A 18px necesita bastante más aire que Inter para leerse igual.
-
-    0.07em == el 7% que marca Figma. La conversión es 1:1: Figma expresa
-    el letter-spacing como porcentaje del font-size, que es justo lo que
-    significa em. Basta dividir entre 100 — no hay que recalcular nada
-    aunque cambie el tamaño.
-  */
   --font-heading-weight:   600;
   --font-heading-stretch:  100%;
   --font-heading-tracking: 0.07em;
@@ -130,14 +105,6 @@
   --font-display-stretch:  90%;
   --font-display-tracking: 0em;
 
-  /*
-    Anybody Bold (700) con 4% de interletrado — valores calibrados en
-    Figma. El 4% en CSS es 0.04em: Figma expresa el letter-spacing como
-    porcentaje del font-size, que es exactamente lo que significa em.
-
-    stretch 95% en vez del 90% del display: la condensación penaliza mucho
-    más la legibilidad a tamaño de cuerpo que en un titular de 7vw.
-  */
   --font-heading-weight:   700;
   --font-heading-stretch:  95%;
   --font-heading-tracking: 0.04em;
@@ -146,11 +113,9 @@
   --photo-grayscale:   1;
   --photo-src: url("../resources/luis-romero-light.png");
 
-  /* amarillo #FFCC00 sobre el canvas violeta: complementario, no un token */
   --diagram-sitemap-src: url("../resources/diagram-sitemap-brad.png");
   --diagram-flow-src:    url("../resources/diagram-flow-brad.png");
-  /* el mockup de brad es el mismo export que light: el portátil no lleva
-     nada que dependa del canvas. Archivo propio por contrato uniforme. */
+
   --mockup-screens-src:  url("../resources/mockup-screens-brad.png");
   --laptop-front-src:    url("../resources/laptop-front-brad.png");
   --screen-behavior-src: url("../resources/Documentation-Button-brad.png");
