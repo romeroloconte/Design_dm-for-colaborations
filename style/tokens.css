@@ -113,6 +113,14 @@
   --photo-noise-blend: overlay;
   --photo-noise-alpha: 0.25;
   --photo-grayscale:   1;
+
+  /*
+    El retrato es un token más: cada theme declara qué versión pinta. Hay
+    DOS assets, no tres — light y brad comparten el mismo. La ruta es
+    relativa al .css, no al .html, porque url() en CSS resuelve contra la
+    hoja de estilos.
+  */
+  --photo-src: url("../resources/luis-romero-dark.png");
 }
 
 /* --------------------------------------------------------------- LIGHT */
@@ -147,6 +155,8 @@
   --photo-noise-blend: multiply;
   --photo-noise-alpha: 0.18;
   --photo-grayscale:   1;
+
+  --photo-src: url("../resources/luis-romero-light.png");
 }
 
 /* ---------------------------------------------------------------- BRAD */
@@ -192,4 +202,8 @@
   --photo-noise-blend: multiply;
   --photo-noise-alpha: 0.20;
   --photo-grayscale:   1;
+
+  /* Comparte asset con light: el retrato claro también recorta contra el
+     canvas violeta. Mismo archivo, no una copia. */
+  --photo-src: url("../resources/luis-romero-light.png");
 }

@@ -355,23 +355,25 @@ body {
   z-index: 1;
 }
 
-/* la foto NO se clipa: desborda el panel por arriba, anclada a su base */
+/*
+  La foto NO se clipa: desborda el panel por arriba, anclada a su base. El
+  wrap cubre TODO el .about-photo (panel + la reserva de padding-top), así
+  que anclar el fondo abajo reproduce ese desbordamiento sin recorte.
+
+  Es background y no <img> porque el asset cambia por theme: así la ruta
+  vive en tokens.css como --photo-src, junto al resto de decisiones de
+  theme, y no hay mapeo de colores repartido en JS o en el HTML. El
+  elemento conserva semántica de imagen vía role="img" + aria-label.
+*/
 .about-photo__img-wrap {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-}
-
-.about-photo__img {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: block;
-  width: var(--photo-w);
-  max-width: none;
-  height: auto;
+  background-image: var(--photo-src);
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: var(--photo-w) auto;
   filter: grayscale(var(--photo-grayscale, 1));
 }
 
