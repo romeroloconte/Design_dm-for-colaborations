@@ -3,29 +3,46 @@
     {
       "id": "project-1",
       "title": "Título del proyecto",
-      "start": "Jan 2023",
-      "end": "Jun 2024",
-      "role": "Rol / Design System Designer",
+      "start": "ene. 2026",
+      "end": "jul. 2026",
+      "role": "Rol: Design System Designer / UI Designer",
       "image": "media/project-1.png",
       "alt": "Descripción de la captura para lectores de pantalla",
       "blocks": [
         {
-          "lead": "Library & Documentation Management.",
+          "lead": "Design System Transition & Rebranding.",
           "text": "Cuerpo del párrafo. El lead-in va en bold, el resto en texto normal."
         },
         {
-          "lead": "Component Lifecycle.",
+          "lead": "Technical Library Migration.",
           "text": "Segundo bloque."
+        },
+        {
+          "lead": "Flow Audit & Optimization.",
+          "text": "Tercer bloque."
         }
       ]
     },
     {
       "id": "project-2",
       "title": "Segundo proyecto",
-      "start": "Feb 2024",
-      "end": "Present",
-      "role": "Rol",
-      "image": "media/project-2.png",
+      "start": "ene. 2026",
+      "end": "jul. 2026",
+      "role": "Rol: Design System Designer",
+      "alt": "Descripción de la captura",
+      "blocks": [
+        {
+          "lead": "Lead-in.",
+          "text": "Cuerpo. Sin campo image, el hueco de la izquierda pinta un placeholder."
+        }
+      ]
+    },
+    {
+      "id": "project-3",
+      "title": "Tercer proyecto",
+      "start": "ene. 2026",
+      "end": "jul. 2026",
+      "role": "Rol: Product Designer",
       "alt": "Descripción de la captura",
       "blocks": [
         {

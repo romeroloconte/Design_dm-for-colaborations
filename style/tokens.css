@@ -37,6 +37,8 @@
   --text-muted:       var(--color-grey-400);
   --border-subtle:    rgba(255, 255, 255, 0.16);
   --border-strong:    rgba(255, 255, 255, 0.32);
+  --chip-bg:          var(--color-white);
+  --chip-text:        var(--color-black);
   --accent-interactive: var(--color-violet);
   --font-display:          var(--family-inter);
   --font-display-weight:   500;
@@ -68,6 +70,8 @@
   --text-muted:       var(--color-grey-400);
   --border-subtle:    rgba(0, 0, 0, 0.16);
   --border-strong:    rgba(0, 0, 0, 0.32);
+  --chip-bg:          var(--color-grey-200);
+  --chip-text:        var(--color-black);
   --accent-interactive: var(--color-violet);
   --font-display:          var(--family-clash);
   --font-display-weight:   600;
@@ -99,6 +103,8 @@
   --text-muted:       var(--color-brad-deep);
   --border-subtle:    rgba(26, 14, 36, 0.20);
   --border-strong:    rgba(26, 14, 36, 0.38);
+  --chip-bg:          var(--color-white);
+  --chip-text:        var(--color-brad-ink);
   --accent-interactive: var(--color-white);
   --font-display:          var(--family-anybody);
   --font-display-weight:   700;

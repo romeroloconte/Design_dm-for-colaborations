@@ -73,15 +73,22 @@
   }
 
   function paragraph(block) {
-    const node = document.createElement("p");
+    const fragment = document.createDocumentFragment();
+
     if (block.lead) {
-      const lead = document.createElement("strong");
+      const lead = document.createElement("p");
+      lead.className = "project-lead";
       lead.textContent = block.lead;
-      node.appendChild(lead);
-      node.appendChild(document.createTextNode(" "));
+      fragment.appendChild(lead);
     }
-    node.appendChild(document.createTextNode(block.text || ""));
-    return node;
+
+    if (block.text) {
+      const body = document.createElement("p");
+      body.textContent = block.text;
+      fragment.appendChild(body);
+    }
+
+    return fragment;
   }
 
   function meta(project) {
@@ -123,10 +130,21 @@
     button.setAttribute("aria-expanded", "false");
     button.setAttribute("aria-controls", nextId);
 
-    const icon = document.createElement("span");
-    icon.className = "about-reveal__icon";
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    const icon = document.createElementNS(SVG_NS, "svg");
+    icon.setAttribute("class", "about-reveal__icon");
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "+";
+    icon.setAttribute("viewBox", "0 0 16 16");
+    icon.setAttribute("width", "9");
+    icon.setAttribute("height", "9");
+    icon.setAttribute("fill", "none");
+    icon.setAttribute("stroke", "currentColor");
+    icon.setAttribute("stroke-width", "2");
+    icon.setAttribute("stroke-linecap", "round");
+
+    const cross = document.createElementNS(SVG_NS, "path");
+    cross.setAttribute("d", "M8 1v14M1 8h14");
+    icon.appendChild(cross);
 
     const label = document.createElement("span");
     label.className = "about-reveal__label";

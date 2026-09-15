@@ -433,21 +433,26 @@ body {
   border: none;
   color: var(--text-primary);
   font-family: var(--family-inter);
+
+  font-size: 12px;
   line-height: 1;
   padding: 0;
   cursor: pointer;
   transition: color 0.2s ease;
 }
-.about-reveal__icon {
-  font-size: 24px;
-  line-height: 1;
 
-  display: inline-block;
+.about-reveal__icon {
+  width: 0.73em;
+  height: 0.73em;
+  width: 1cap;
+  height: 1cap;
+  display: block;
+  flex: 0 0 auto;
   transform-origin: 50% 50%;
 }
 
 .about-reveal__label {
-  font-size: 12px;
+  white-space: nowrap;
   font-weight: 300;
   letter-spacing: 0.02rem;
   line-height: 1;
@@ -670,17 +675,21 @@ body {
   width: 100%;
   height: auto;
 }
+.about--project {
+  min-height: 100vh;
+  padding-block: 6vh;
+}
 .project-header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 24px;
   width: 100%;
 }
 .project-head {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 16px;
+  gap: 12px 16px;
   width: 100%;
 }
 .about-heading--project {
@@ -700,30 +709,35 @@ body {
   font-size: 12px;
   font-weight: 300;
   line-height: 1;
-  color: var(--text-muted);
+  color: var(--text-primary);
 }
 .project-chip {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
+  background: var(--chip-bg);
+  border-radius: 6px;
   padding: 4px 10px;
   font-family: var(--family-inter);
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.02rem;
   line-height: 1.4;
-  color: var(--text-secondary);
+  color: var(--chip-text);
 }
-.project-role {
+.about-text .project-role {
   margin: 0;
   font-family: var(--family-inter);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 300;
-  letter-spacing: 0.02rem;
+  letter-spacing: -0.02rem;
   color: var(--text-muted);
 }
-.about--project .about-text p strong {
-  font-weight: 600;
+.about-text .project-lead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-heading-weight);
+  font-stretch: var(--font-heading-stretch);
+  letter-spacing: var(--font-heading-tracking);
+  font-size: 18px;
+  line-height: 1.4;
   color: var(--text-primary);
 }
 @media (max-width: 900px) {
