@@ -1,39 +1,17 @@
-/*
-  Las fuentes NO se cargan con @import: un @import bloquea el render y
-  encadena peticiones (CSS → CSS → woff2). Con tres familias eso son tres
-  saltos en serie. Van como <link rel="preconnect"> + <link> en el <head>
-  de cada página, que el navegador puede paralelizar.
-
-  Ningún valor de color literal por debajo de esta línea.
-  Todo color sale de los semánticos declarados en style/tokens.css.
-*/
-
-/*
-  Inset único de borde. La nav lo usa arriba y las social links abajo,
-  así el espacio al tope y al fondo del viewport es el mismo.
-*/
 :root {
   --edge-inset: 3vh;
 }
-
 body {
   margin: 0;
   background-color: var(--bg-canvas);
   color: var(--text-primary);
   transition: background-color 0.35s ease, color 0.35s ease;
 }
-
 @media (prefers-reduced-motion: reduce) {
   body {
     transition: none;
   }
 }
-
-/*
-  Rejilla de 3 filas: 1fr / auto / 1fr.
-  El bloque de h1 queda ópticamente centrado en el viewport y las social
-  links se apoyan en el borde inferior del padding, sin números mágicos.
-*/
 .title {
   width: 100%;
   display: grid;
@@ -43,19 +21,9 @@ body {
   padding-block: var(--edge-inset);
   box-sizing: border-box;
   cursor: crosshair;
-
   h1 {
     margin: 0;
     padding: 0;
-    /*
-      Familia, peso, anchura y tracking van juntos y por theme: son
-      propiedades acopladas. Cambiar solo la familia y heredar el peso y el
-      tracking calibrados para Inter da mal resultado en las otras dos.
-
-      El tracking está en em, no en rem: con font-size en vw, un valor
-      absoluto aprieta muchísimo más en móvil que en desktop. En em escala
-      con el tamaño y el ajuste óptico se mantiene en todos los anchos.
-    */
     font-family: var(--font-display);
     font-weight: var(--font-display-weight);
     font-stretch: var(--font-display-stretch);
@@ -65,24 +33,15 @@ body {
     text-align: center;
     width: 80%;
     margin-inline: auto;
-
     div {
       position: relative;
     }
   }
 }
-
-/*
-  Contenedor del stack de títulos. El ritmo vertical entre líneas lo fija
-  el line-height del h1 (margin 0), así el hueco es idéntico entre todas.
-*/
 .title__lines {
   grid-row: 2;
   width: 100%;
 }
-
-/* ------------------------------------------------------------------ NAV */
-
 .site-nav {
   position: fixed;
   top: var(--edge-inset);
@@ -96,11 +55,9 @@ body {
   box-sizing: border-box;
   z-index: 10;
 }
-
 .site-nav__link--home {
   margin-right: auto;
 }
-
 .site-nav__link {
   font-family: var(--family-inter);
   font-size: 20px;
@@ -110,24 +67,18 @@ body {
   text-decoration: none;
   transition: color 0.2s ease;
 }
-
 .site-nav__link:hover {
   color: var(--accent-interactive);
 }
-
 @media (max-width: 768px) {
   .site-nav__link {
     font-size: 16px;
   }
 }
-
-/* -------------------------------------------------------- THEME SWITCHER */
-
 .theme-switcher {
   position: relative;
   font-family: var(--family-inter);
 }
-
 .theme-switcher__trigger {
   display: inline-flex;
   align-items: center;
@@ -144,22 +95,14 @@ body {
   cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
-
 .theme-switcher__trigger:hover {
   color: var(--accent-interactive);
   border-color: var(--border-strong);
 }
-
 .theme-switcher__trigger:focus-visible {
   outline: 2px solid var(--accent-interactive);
   outline-offset: 2px;
 }
-
-/*
-  Indicador único del componente: el mismo puntito en el trigger y en el
-  menú. Monocromo en currentColor, así que nunca introduce un color que no
-  sea el del theme activo.
-*/
 .theme-switcher__dot {
   width: 9px;
   height: 9px;
@@ -167,17 +110,14 @@ body {
   background: currentColor;
   flex: 0 0 auto;
 }
-
 .theme-switcher__caret {
   font-size: 10px;
   line-height: 1;
   transition: transform 0.2s ease;
 }
-
 .theme-switcher__trigger[aria-expanded="true"] .theme-switcher__caret {
   transform: rotate(180deg);
 }
-
 .theme-switcher__menu {
   position: absolute;
   top: calc(100% + 8px);
@@ -193,11 +133,9 @@ body {
   flex-direction: column;
   gap: 2px;
 }
-
 .theme-switcher__menu[hidden] {
   display: none;
 }
-
 .theme-switcher__option {
   display: flex;
   align-items: center;
@@ -216,91 +154,63 @@ body {
   cursor: pointer;
   transition: color 0.15s ease, background-color 0.15s ease;
 }
-
 .theme-switcher__option:hover {
   color: var(--text-primary);
   background-color: var(--border-subtle);
 }
-
 .theme-switcher__option[aria-checked="true"] {
   color: var(--text-primary);
 }
-
 .theme-switcher__option:focus-visible {
   outline: 2px solid var(--accent-interactive);
   outline-offset: -2px;
 }
-
-/*
-  En el menú el punto es binario: está en el theme seleccionado y en
-  ninguno más. No hay estado "vacío" dibujado — el hueco se reserva igual
-  para que el texto no se desplace al cambiar de selección.
-
-  El punto NO reacciona al hover: es exclusivamente indicador de estado.
-  El hover se comunica en la fila (fondo + color de texto), así nada
-  compite con la lectura de qué theme está activo.
-*/
 .theme-switcher__option .theme-switcher__dot {
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-
 .theme-switcher__option[aria-checked="true"] .theme-switcher__dot {
   opacity: 1;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .theme-switcher__option .theme-switcher__dot {
     transition: none;
   }
 }
-
 @media (max-width: 768px) {
   .theme-switcher__trigger {
     font-size: 13px;
     padding: 5px 11px;
   }
-
   .theme-switcher__trigger .theme-switcher__label {
     display: none;
   }
 }
-
-/* --------------------------------------------------------------- SOCIAL */
-
 .social-links {
   display: inline-flex;
   align-items: center;
   gap: 28px;
 }
-
-/* Pegadas al borde inferior del padding del .title (= --edge-inset). */
 .title .social-links {
   grid-row: 3;
   align-self: end;
 }
-
 .social-links--footer {
   width: 100%;
   display: flex;
   justify-content: center;
   margin: 0 0 8vh;
 }
-
 .social-link {
   color: var(--text-primary);
   fill: var(--text-primary);
   display: inline-flex;
   transition: color 0.2s ease, fill 0.2s ease;
 }
-
 .social-link:hover {
   color: var(--accent-interactive);
   fill: var(--accent-interactive);
 }
-
-/* ---------------------------------------------------------------- ABOUT */
-
 .about {
   width: 100%;
   min-height: 100vh;
@@ -312,59 +222,24 @@ body {
   padding: 12vh 6vw;
   box-sizing: border-box;
 }
-
-/*
-  Foto + panel
-  ------------
-  La foto es un recorte (PNG con alpha, ratio 525/640 = 1.219 de alto).
-  Se dimensiona SIEMPRE por ancho (--photo-w) para que escale igual en
-  cualquier viewport. El panel es 16/9 (56.25% de su ancho).
-
-  Desborde superior = --photo-w * 1.219 - 56.25%
-  Con --photo-w: 78%  ->  95.08% - 56.25% = 38.8%
-
-  OJO: el padding en % se resuelve contra el ancho del BLOQUE CONTENEDOR,
-  no contra el ancho del propio elemento. En desktop la columna es más
-  estrecha que .about, así que la reserva se calcula en px sobre
-  --photo-col; en mobile la columna ocupa el 100% del contenedor y ahí
-  el % sí es equivalente.
-*/
+.about[hidden] {
+  display: none;
+}
 .about-photo {
   --photo-w: 78%;
   position: relative;
   flex: 0 0 var(--photo-col, 480px);
   width: var(--photo-col, auto);
   max-width: 100%;
-  /* reserva el alto que la cabeza sobresale por encima del panel */
   padding-top: calc(var(--photo-col, 480px) * 0.388);
 }
-
-/* panel de fondo: el recuadro degradado (en flujo, define el alto real) */
 .about-photo__frame {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  /*
-    El gradiente termina en --bg-panel-to, que cada theme hace coincidir
-    con su --bg-canvas: un stop SÓLIDO, no un alpha-fade. Un fade con
-    alpha revela lo que haya detrás y se lee distinto según el
-    compositing del navegador; con un stop sólido el empalme con el
-    fondo es idéntico en todos los themes.
-  */
   background: linear-gradient(180deg, var(--bg-panel-from) 0%, var(--bg-panel-to) 100%);
   z-index: 1;
 }
-
-/*
-  La foto NO se clipa: desborda el panel por arriba, anclada a su base. El
-  wrap cubre TODO el .about-photo (panel + la reserva de padding-top), así
-  que anclar el fondo abajo reproduce ese desbordamiento sin recorte.
-
-  Es background y no <img> porque el asset cambia por theme: así la ruta
-  vive en tokens.css como --photo-src, junto al resto de decisiones de
-  theme, y no hay mapeo de colores repartido en JS o en el HTML. El
-  elemento conserva semántica de imagen vía role="img" + aria-label.
-*/
 .about-photo__img-wrap {
   position: absolute;
   inset: 0;
@@ -376,7 +251,6 @@ body {
   background-size: var(--photo-w) auto;
   filter: grayscale(var(--photo-grayscale, 1));
 }
-
 .about-photo__frame::before {
   content: "";
   position: absolute;
@@ -386,7 +260,6 @@ body {
   mix-blend-mode: var(--photo-noise-blend, overlay);
   pointer-events: none;
 }
-
 .about-content {
   flex: 1 1 420px;
   max-width: 620px;
@@ -395,14 +268,144 @@ body {
   align-items: center;
   gap: 32px;
 }
+.about-media {
+  flex: 0 0 var(--photo-col, 480px);
+  width: var(--photo-col, auto);
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+/*
+  El asset lo decide el theme, pero el elemento sigue siendo un <img>: así
+  conserva alt, loading="lazy" (están bajo el fold y pesan) y los width/
+  height que reservan el hueco antes de descargar. `content` sustituye la
+  imagen pintada sin tocar nada de eso, y la ruta se queda en tokens.css
+  junto al resto de decisiones de theme.
 
+  El src del HTML apunta al asset de dark — el theme por defecto — y hace
+  de fallback si el CSS no carga.
+*/
+.about-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.about-diagram--sitemap { content: var(--diagram-sitemap-src); }
+.about-diagram--flow    { content: var(--diagram-flow-src); }
+
+/*
+  El mockup es casi cuadrado (1200/1008), no apaisado como los diagramas:
+  manda la imagen y el hueco toma su ratio. Por eso no reutiliza
+  .about-diagram, que asume proporción ancha.
+*/
+.about-mockup {
+  display: block;
+  width: 100%;
+  height: auto;
+  content: var(--mockup-screens-src);
+}
+.about-device {
+  --device-ratio: 716 / 675;
+  --panel-left: 11.1732%;
+  --panel-top: 33.7778%;
+  --panel-width: 77.6536%;
+  --panel-height: 54.5185%;
+  --bezel-x: 1.3966%;
+  --bezel-top: 3.8519%;
+  --bezel-bottom: 1.7778%;
+  --doc-ratio: 490 / 3805;
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--device-ratio);
+  background-image: var(--laptop-front-src);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.about-device__frame {
+  position: absolute;
+  left: calc(var(--panel-left) + var(--bezel-x));
+  top: calc(var(--panel-top) + var(--bezel-top));
+  width: calc(var(--panel-width) - var(--bezel-x) * 2);
+  height: calc(var(--panel-height) - var(--bezel-top) - var(--bezel-bottom));
+  border-radius: 0.5%;
+  overflow: hidden;
+  background: var(--color-white);
+}
+.about-device__screen {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  cursor: ns-resize;
+}
+.about-device__screen::-webkit-scrollbar {
+  display: none;
+}
+.about-device__doc {
+  width: 100%;
+  aspect-ratio: var(--doc-ratio);
+  background-image: var(--screen-behavior-src, repeating-linear-gradient(180deg, #F4F4F4 0 2.4%, #FFFFFF 2.4% 12%));
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.about-device__hint {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 16%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.92) 100%);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+.about-device[data-scrolled] .about-device__hint {
+  opacity: 0;
+}
+.about-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 816 / 288;
+  border: 1px dashed var(--border-strong);
+  font-family: var(--family-inter);
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: -0.02rem;
+  color: var(--text-muted);
+}
+.about-placeholder--flat {
+  aspect-ratio: 816 / 201;
+}
+.about-heading {
+  width: 100%;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-heading-weight);
+  font-stretch: var(--font-heading-stretch);
+  letter-spacing: var(--font-heading-tracking);
+  font-size: 18px;
+  /*
+    1.4, no 1.3: con tracking abierto el texto ocupa más ancho y encadena
+    más líneas. Si el interlineado no acompaña, el ojo pierde el salto de
+    línea y la lectura se entorpece justo en los h3 largos.
+  */
+  line-height: 1.4;
+  text-align: left;
+  color: var(--text-primary);
+  cursor: crosshair;
+}
+.about-heading div {
+  position: relative;
+}
 .about-text {
   display: flex;
   flex-direction: column;
   gap: 24px;
   width: 100%;
 }
-
 .about-text p {
   margin: 0;
   font-family: var(--family-inter);
@@ -413,7 +416,6 @@ body {
   color: var(--text-secondary);
   text-align: left;
 }
-
 .about-toggle {
   background: none;
   border: none;
@@ -425,43 +427,27 @@ body {
   cursor: pointer;
   transition: color 0.2s ease;
 }
-
 .about-toggle:hover {
   color: var(--accent-interactive);
 }
-
-/*
-  Desktop: el texto se alinea al centro del PANEL, no al centro del bloque
-  foto+desborde. Como el flex centra el item completo, hay que bajar el texto
-  la mitad del desborde superior (38.8% / 2 = 19.4% del ancho de la columna).
-*/
+.about-toggle[hidden] {
+  display: none;
+}
 @media (min-width: 901px) {
   .about {
     --photo-col: min(560px, 42vw);
-    /*
-      OJO: align-items debe seguir siendo "center" (heredado de la regla
-      base). Con align-items:flex-start las dos columnas arrancan en el
-      mismo Y, pero como tienen alturas distintas (la foto incluye el
-      desborde de la cabeza, el texto no) el translateY de abajo ya no
-      compensa bien y el texto queda descolgado respecto al panel.
-      Con "center", flexbox centra cada columna dentro de la misma altura
-      de línea, y ese centrado ya absorbe la diferencia de alturas — el
-      translateY solo corrige el offset cabeza/panel encima de eso.
-      Para "subir todo" tocamos el alto/relleno de .about, NUNCA align-items.
-    */
     min-height: 82vh;
     padding-top: 6vh;
     padding-bottom: 6vh;
   }
-
   .about-content {
-    /* columna más ancha => menos líneas => el bloque cabe dentro del panel */
     max-width: 680px;
     gap: 24px;
+  }
+  .about--intro .about-content {
     transform: translateY(calc(var(--photo-col) * 0.194));
   }
 }
-
 @media (max-width: 900px) {
   .about {
     flex-direction: column;
@@ -470,34 +456,35 @@ body {
     gap: 40px;
     padding: 16vh 6vw 8vh;
   }
-
+  .about--diagrams,
+  .about--mockup {
+    padding-top: 8vh;
+  }
   .about-photo {
-    /* menos desborde en pantallas estrechas: 72% * 1.219 - 56.25% = 31.5% */
     --photo-w: 72%;
     flex: 0 0 auto;
     width: 100%;
     max-width: 100%;
-    /* aquí la columna == ancho del contenedor, el % es correcto */
     padding-top: 31.5%;
   }
-
+  .about-media {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+    gap: 32px;
+  }
   .about-content {
     flex: 0 0 auto;
     max-width: 100%;
     align-items: flex-start;
   }
-
   .about-content .about-toggle {
     align-self: center;
   }
-
   .about-text p {
     font-size: 18px;
   }
 }
-
-/* --------------------------------------------------------------- DETAIL */
-
 .detail-size {
   position: absolute;
   bottom: 0;

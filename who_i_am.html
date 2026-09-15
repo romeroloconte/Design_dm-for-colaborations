@@ -4,11 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luis Romero Loconte</title>
-  <!--
-    Una familia por theme. Se cargan las tres por adelantado: cambiar de
-    theme no debe esperar a una descarga, y son ~40KB en woff2 entre todas.
-    preconnect abre la conexión TLS mientras el HTML aún se parsea.
-  -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://api.fontshare.com">
@@ -19,17 +15,6 @@
   <link rel="stylesheet" href="style/tokens.css">
   <link rel="stylesheet" href="style/styles.css">
   <script>
-    /*
-      Anti-FOUC: el theme se fija ANTES del primer paint. Si esto viviera
-      en theme.js (defer) la página pintaría un frame en dark antes de
-      corregirse. Único bloque inline del sitio, y a propósito.
-
-      No lleva la lista de themes: sería un tercer sitio que actualizar al
-      añadir uno. Escribe lo que haya en storage y ya está — un id que no
-      exista no casa con ningún bloque [data-theme] y la página hereda el
-      :root, que es dark. theme.js lo normaliza después. Sin flash y sin
-      duplicar el registro.
-    */
     (function () {
       try {
         var t = localStorage.getItem("rl-theme");
@@ -37,7 +22,7 @@
           document.documentElement.setAttribute("data-theme", t);
           return;
         }
-      } catch (e) { /* storage bloqueado */ }
+      } catch (e) {}
       document.documentElement.setAttribute("data-theme", "dark");
     })();
   </script>
@@ -45,29 +30,99 @@
 <body>
 
   <nav class="site-nav">
-    <a href="index.html" class="site-nav__link site-nav__link--home">home</a>
-    <a href="who_i_am.html" class="site-nav__link site-nav__link--left">who i am?</a>
-    <a href="recent_projects.html" class="site-nav__link site-nav__link--right">recent projects</a>
+    <a href="index.html" class="site-nav__link site-nav__link--home">Home</a>
+    <a href="who_i_am.html" class="site-nav__link site-nav__link--left">Who i am</a>
+    <a href="recent_projects.html" class="site-nav__link site-nav__link--right">Recent projects</a>
     <div data-theme-switcher hidden></div>
   </nav>
 
-  <section class="about">
+  <section class="about about--intro" id="about-1" data-module>
     <div class="about-photo">
       <div class="about-photo__frame"></div>
-      <!-- La imagen la resuelve --photo-src en tokens.css, por theme. -->
       <div class="about-photo__img-wrap" role="img" aria-label="Luis Romero Loconte"></div>
     </div>
 
     <div class="about-content">
       <div class="about-text">
+        <h3 class="about-heading" data-glitch>Who i am</h3>
+
         <p>Degree in Advertising Art Direction with over 12 years of experience in the agency and creative studio ecosystem.</p>
         <p>Today, I am focused on the UX/UI Designer role (since 2019), adopting a strategic approach to end-to-end digital products.</p>
         <p>My background spans various industries with complex projects — primarily in banking — alongside experience in logistics, and retail products, designing solutions that balance user experience and needs with business goals.</p>
       </div>
 
-      <button type="button" class="about-toggle" aria-label="Ver más información">+</button>
+      <button type="button" class="about-toggle" data-reveal aria-expanded="false" aria-label="Show more">+</button>
     </div>
   </section>
+
+  <section class="about about--diagrams" id="about-2" data-module hidden>
+    <div class="about-media">
+      <!-- El asset por theme lo resuelve --diagram-*-src en tokens.css. -->
+      <img class="about-diagram about-diagram--sitemap" src="resources/diagram-sitemap-dark.png" alt="Site map: a home node branching into categories, pages and sub-pages." width="816" height="283" loading="lazy" decoding="async">
+      <img class="about-diagram about-diagram--flow" src="resources/diagram-flow-dark.png" alt="User flow: support and one-to-one call paths, from entry to feedback and rewards." width="816" height="200" loading="lazy" decoding="async">
+    </div>
+
+    <div class="about-content">
+      <div class="about-text">
+        <h3 class="about-heading" data-glitch>Scale is the true challenge of product design.</h3>
+
+        <p>As a product grows, a lack of visual and technical cohesion can emerge, creating friction in the user experience that ultimately fragments usability.</p>
+        <p>My work focuses on connecting product decisions through solid flows—turning friction into efficient experiences and consistent products.</p>
+      </div>
+
+      <button type="button" class="about-toggle" data-reveal aria-expanded="false" aria-label="Show more">+</button>
+    </div>
+  </section>
+
+  <section class="about about--placeholder" id="about-3" data-module hidden>
+    <div class="about-media">
+      <div class="about-device" data-device>
+        <div class="about-device__frame">
+          <div class="about-device__screen" tabindex="0" role="region" aria-label="Button component documentation, scrollable">
+            <div class="about-device__doc"></div>
+          </div>
+          <div class="about-device__hint" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-content">
+      <div class="about-text">
+        <h3 class="about-heading" data-glitch>Component Anatomy & Behavior.</h3>
+        <p>Analyzing continuous screens allows us to identify inconsistencies, reuse components, and align behaviors with real user needs. and align behaviors with real user needs.</p>
+        <h3 class="about-heading" data-glitch>Efficiency for Designers & Developers.</h3>
+        <p>With technical documentation detailing behaviors, tokens, and spacing, we guarantee an efficient handoff. We don't just design screens—we create a clear system for development, product, and other stakeholders. This reduces friction in the codebase by aligning Figma with Storybook, ensuring both designers and developers understand the true scope and capabilities of every component.</p>
+        <h3 class="about-heading" data-glitch>Accessibility Assurance (A11Y).</h3>
+        <p>Accessibility is non-negotiable. It is documented to ensure every component complies with WCAG standards—defining contrast ratios, keyboard navigation, and specific behaviors so the product remains inclusive and compliant with current regulations.</p>
+  
+      </div>
+
+      <button type="button" class="about-toggle" data-reveal aria-expanded="false" aria-label="Show more">+</button>
+    </div>
+  </section>
+
+
+  <section class="about about--mockup" id="about-4" data-module hidden>
+    <div class="about-media">
+      <!-- El asset por theme lo resuelve --mockup-screens-src en tokens.css. -->
+      <img class="about-mockup" src="resources/mockup-screens-dark.png" alt="Dashboard interface shown on a laptop: sidebar navigation, metric cards, a sales chart and a data table." width="816" height="685" loading="lazy" decoding="async">
+    </div>
+
+    <div class="about-content">
+      <div class="about-text">
+        <h3 class="about-heading" data-glitch>Screen Analysis.</h3>
+        <p>Analyzing each screen not in isolation, but within its specific use case. This allows us to spot inconsistencies, reuse components, and align behaviors with the needs of the flow.</p>
+        <h3 class="about-heading" data-glitch>Visual Consistency. </h3>
+        <p>Typography, color palettes, spacing, layouts, and grids—ensuring the interface feels cohesive, even if the user can't explicitly point out why.</p>        
+        <h3 class="about-heading" data-glitch>Functional Consistency. </h3>
+        <p>If two elements look similar, they should behave the same way. When they don't, it creates doubt. And when users hesitate, the experience breaks down.</p>
+      </div>
+
+      <button type="button" class="about-toggle" data-reveal aria-expanded="false" aria-label="Show more">+</button>
+    </div>
+  </section>
+
+  
 
   <div class="social-links social-links--footer">
     <a href="https://www.linkedin.com/in/romeroloconte/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn de Luis Romero Loconte">
@@ -94,6 +149,8 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script src="js/gsap.js" defer></script>
   <script src="js/theme.js" defer></script>
+  <script src="js/modules.js" defer></script>
+  <script src="js/device.js" defer></script>
 
 </body>
 </html>

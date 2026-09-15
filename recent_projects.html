@@ -4,11 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luis Romero Loconte</title>
-  <!--
-    Una familia por theme. Se cargan las tres por adelantado: cambiar de
-    theme no debe esperar a una descarga, y son ~40KB en woff2 entre todas.
-    preconnect abre la conexión TLS mientras el HTML aún se parsea.
-  -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://api.fontshare.com">
@@ -19,17 +15,6 @@
   <link rel="stylesheet" href="style/tokens.css">
   <link rel="stylesheet" href="style/styles.css">
   <script>
-    /*
-      Anti-FOUC: el theme se fija ANTES del primer paint. Si esto viviera
-      en theme.js (defer) la página pintaría un frame en dark antes de
-      corregirse. Único bloque inline del sitio, y a propósito.
-
-      No lleva la lista de themes: sería un tercer sitio que actualizar al
-      añadir uno. Escribe lo que haya en storage y ya está — un id que no
-      exista no casa con ningún bloque [data-theme] y la página hereda el
-      :root, que es dark. theme.js lo normaliza después. Sin flash y sin
-      duplicar el registro.
-    */
     (function () {
       try {
         var t = localStorage.getItem("rl-theme");
@@ -37,7 +22,7 @@
           document.documentElement.setAttribute("data-theme", t);
           return;
         }
-      } catch (e) { /* storage bloqueado */ }
+      } catch (e) {}
       document.documentElement.setAttribute("data-theme", "dark");
     })();
   </script>
@@ -45,15 +30,15 @@
 <body>
 
   <nav class="site-nav">
-    <a href="index.html" class="site-nav__link site-nav__link--home">home</a>
-    <a href="who_i_am.html" class="site-nav__link site-nav__link--left">who i am?</a>
-    <a href="recent_projects.html" class="site-nav__link site-nav__link--right">recent projects</a>
+    <a href="index.html" class="site-nav__link site-nav__link--home">Home</a>
+    <a href="who_i_am.html" class="site-nav__link site-nav__link--left">Who i am</a>
+    <a href="recent_projects.html" class="site-nav__link site-nav__link--right">Recent projects</a>
     <div data-theme-switcher hidden></div>
   </nav>
-  
+
   <section class="title">
     <div class="title__lines">
-      <h1>Coming soon...</h1>
+      <h1 data-glitch>Coming soon...</h1>
     </div>
 
     <div class="social-links">
