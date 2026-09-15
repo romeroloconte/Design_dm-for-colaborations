@@ -1,6 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 /*
+  Las fuentes NO se cargan con @import: un @import bloquea el render y
+  encadena peticiones (CSS → CSS → woff2). Con tres familias eso son tres
+  saltos en serie. Van como <link rel="preconnect"> + <link> en el <head>
+  de cada página, que el navegador puede paralelizar.
+
   Ningún valor de color literal por debajo de esta línea.
   Todo color sale de los semánticos declarados en style/tokens.css.
 */
@@ -44,14 +47,24 @@ body {
   h1 {
     margin: 0;
     padding: 0;
-    font-family: "Inter";
+    /*
+      Familia, peso, anchura y tracking van juntos y por theme: son
+      propiedades acopladas. Cambiar solo la familia y heredar el peso y el
+      tracking calibrados para Inter da mal resultado en las otras dos.
+
+      El tracking está en em, no en rem: con font-size en vw, un valor
+      absoluto aprieta muchísimo más en móvil que en desktop. En em escala
+      con el tamaño y el ajuste óptico se mantiene en todos los anchos.
+    */
+    font-family: var(--font-display);
+    font-weight: var(--font-display-weight);
+    font-stretch: var(--font-display-stretch);
+    letter-spacing: var(--font-display-tracking);
     font-size: 7vw;
-    letter-spacing: -0.1rem;
     line-height: 1.1;
     text-align: center;
     width: 80%;
     margin-inline: auto;
-    font-weight: 500;
 
     div {
       position: relative;
@@ -89,7 +102,7 @@ body {
 }
 
 .site-nav__link {
-  font-family: "Inter";
+  font-family: var(--family-inter);
   font-size: 20px;
   font-weight: 300;
   letter-spacing: -0.02rem;
@@ -112,7 +125,7 @@ body {
 
 .theme-switcher {
   position: relative;
-  font-family: "Inter";
+  font-family: var(--family-inter);
 }
 
 .theme-switcher__trigger {
@@ -390,7 +403,7 @@ body {
 
 .about-text p {
   margin: 0;
-  font-family: "Inter";
+  font-family: var(--family-inter);
   font-weight: 300;
   font-size: 18px;
   line-height: 150%;
@@ -403,7 +416,7 @@ body {
   background: none;
   border: none;
   color: var(--text-primary);
-  font-family: "Inter";
+  font-family: var(--family-inter);
   font-size: 24px;
   line-height: 1;
   padding: 0;

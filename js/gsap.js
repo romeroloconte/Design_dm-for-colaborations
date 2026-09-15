@@ -1,9 +1,27 @@
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
 /*
-  Paleta del efecto
-  -----------------
-  Los colores NO viven aquí. Salen de --accent-1..5 y --text-primary
+  EFECTO DE TEXTO
+  ===============
+  SplitText con type "lines, chars" envuelve cada línea en un div según
+  dónde rompe el texto EN EL MOMENTO DEL SPLIT. Eso lo vuelve dependiente
+  de tres cosas que cambian: la familia tipográfica (un token por theme),
+  el ancho del viewport y si la fuente ha terminado de cargar.
+
+  Por eso el split no se hace una vez al arrancar, sino que vive en
+  build(), que se puede reejecutar. Cada reejecución revierte el split
+  anterior — y con él se van los listeners, porque los nodos que los
+  llevaban dejan de existir. Sin fugas y sin listeners duplicados.
+
+  Se reconstruye en tres momentos:
+    - cuando las fuentes han cargado (si no, mediríamos con la fallback)
+    - al cambiar de theme (cambia la familia, cambia dónde rompe)
+    - al redimensionar en horizontal (cambia el ancho disponible)
+*/
+
+/* --------------------------------------------------------------- paleta */
+/*
+  Los colores NO viven aquí: salen de --accent-1..5 y --text-primary
   (style/tokens.css), así que un theme nuevo no obliga a tocar este
   archivo. Se cachean y se refrescan solo al cambiar de theme.
 */
@@ -20,108 +38,127 @@ function readPalette() {
     baseColor = styles.getPropertyValue("--text-primary").trim() || "currentColor";
 }
 
-readPalette();
-
-document.addEventListener("themechange", () => {
-    readPalette();
-    // Un hover a medias deja color inline; al cambiar de theme se corta la
-    // animación y se devuelve el carácter a su estado heredado.
-    document.querySelectorAll("h1 [style*='color']").forEach((char) => {
-        gsap.killTweensOf(char);
-        char.style.removeProperty("color");
-        char.style.border = "none";
-        if (char.dataset.orig) { char.textContent = char.dataset.orig; }
-    });
-});
-
 function randomAccent() {
     return gsap.utils.random(accentPalette);
 }
 
-function split(el) {
-    return new SplitText(el, { type: "lines, chars" });
-}
+const GLITCH_CHARS = [
+    "a","b","c","d","e","f","g","h","i","j","k","l","m",
+    "n","o","p","q","r","s","t","u","v","w","x","y","z",
+    "A","B","C","D","E","F","G","H","I","J","K","L","M",
+    "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+    "0","1","2","3","4","5","6","7","8","9",
+    "<",">","%","&","@","!","#","$","^","*","(",")","-",
+    "_","+","=","{","}","[","]","|","\\",":",";","\"",
+    "?","/","~","`"
+];
 
-const texts = gsap.utils.toArray("h1");
+/* ---------------------------------------------------------------- efecto */
 
-texts.forEach((txt) => {
-    const lineArray = split(txt);
+function glitchLine(line, chars) {
+    const charsInLine = chars.filter((char) => line.contains(char));
+    const middleIndex = (charsInLine.length - 1) / 2;
 
-    lineArray.lines.forEach((line) => {
-        line.addEventListener("mouseenter", () => {
+    charsInLine.forEach((char, index) => {
+        if (!char.dataset.orig) {
+            char.dataset.orig = char.textContent;
+        }
 
-            const charsInLine = lineArray.chars.filter((char) => line.contains(char));
+        // El stagger sale de la distancia al centro: el glitch se abre
+        // hacia los lados en vez de recorrer la línea de izquierda a derecha.
+        const distanceFromCenter = Math.abs(index - middleIndex);
 
-            const totalChars = charsInLine.length;
-            const middleIndex = (totalChars - 1) / 2;
+        gsap.fromTo(char, { color: baseColor }, {
+            color: randomAccent(),
+            ease: "power3.out",
+            duration: 0.3,
+            delay: distanceFromCenter * 0.03,
+            repeat: 1,
+            yoyo: true,
+            overwrite: "auto",
 
-            charsInLine.forEach((char, index) => {
-                if (!char.dataset.orig) {
-                    char.dataset.orig = char.textContent;
+            onStart: () => {
+                if (gsap.utils.random(["0", "1"]) === "1") {
+                    char.textContent = gsap.utils.random(GLITCH_CHARS);
                 }
+                // Una misma tirada decide borde y cota: van juntos por diseño.
+                if (gsap.utils.random(["0", "1", "2"]) === "1") {
+                    const detail = document.createElement("span");
+                    detail.classList.add("detail-size");
+                    detail.textContent = `△x = ${char.clientWidth}px`;
+                    char.appendChild(detail);
+                    char.style.border = `1px solid ${randomAccent()}`;
+                }
+            },
 
-                // 2. Calcola la distanza dal centro (il centro avrà distanza 0)
-                const distanceFromCenter = Math.abs(index - middleIndex);
-
-                gsap.fromTo(char, { color: baseColor }, {
-                    color: randomAccent(),
-                    ease: "power3.out",
-                    duration: 0.3,
-                    delay: distanceFromCenter * 0.03, 
-                    repeat: 1,
-                    yoyo: true,
-                    overwrite: "auto",
-
-                    onStart: () => {
-                        const randomNum = gsap.utils.random(["0", "1"])
-                        const randomNumThree = gsap.utils.random(["0", "1", "2"])
-                        // Generazione di caratteri alternativi
-                        if(randomNum == 1) {
-                            char.textContent = gsap.utils.random([
-                                // Lettere minuscole
-                                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
-                                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-
-                                // Lettere maiuscole
-                                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 
-                                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-
-                                // Numeri
-                                "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-
-                                // Caratteri speciali
-                                "<", ">", "%", "&", "@", "!", "#", "$", "^", "*", "(", ")", "-", 
-                                "_", "+", "=", "{", "}", "[", "]", "|", "\\", ":", ";", "\"", 
-                                "?", "/", "~", "`"
-                                ]
-                            );
-                        }
-
-                        // Generazione di dettagli ai caratteri
-                        if(randomNumThree == 1) {
-                            const detail = document.createElement("span")
-                            detail.classList.add("detail-size")
-                            detail.textContent = `△x = ${char.clientWidth}px`
-                            char.appendChild(detail)
-                        }
-
-                        // Generazione di bordi
-                        if(randomNumThree == 1) {
-                            char.style.border = `1px solid ${randomAccent()}`
-                        }
-                    },
-
-                    onComplete: () => {
-                        char.textContent = char.dataset.orig;
-                        char.style.border = "none"
-                        // Se libera el color inline: el carácter vuelve a heredar
-                        // --text-primary. Si no, conservaría el hex del theme que
-                        // estuviera activo durante el hover y se quedaría
-                        // desincronizado al cambiar de theme.
-                        char.style.removeProperty("color");
-                    }
-                });
-            });
+            onComplete: () => {
+                char.textContent = char.dataset.orig;
+                char.style.border = "none";
+                // Se libera el color inline para que el carácter vuelva a
+                // heredar --text-primary. Si no, conservaría el hex del theme
+                // activo durante el hover y quedaría desincronizado al cambiar.
+                char.style.removeProperty("color");
+            }
         });
     });
-});
+}
+
+/* ----------------------------------------------------------- construcción */
+
+let splits = [];
+
+function build() {
+    // revert() devuelve cada h1 a su HTML original y se lleva por delante
+    // los nodos de línea y carácter — y con ellos sus listeners.
+    splits.forEach((s) => {
+        gsap.killTweensOf(s.chars);
+        s.revert();
+    });
+    splits = [];
+
+    gsap.utils.toArray("h1").forEach((txt) => {
+        const instance = new SplitText(txt, { type: "lines, chars" });
+        splits.push(instance);
+
+        instance.lines.forEach((line) => {
+            line.addEventListener("mouseenter", () => glitchLine(line, instance.chars));
+        });
+    });
+}
+
+/*
+  Reconstruir tras un cambio de familia exige que la nueva fuente esté
+  cargada: el navegador solo descarga las que se usan, así que la primera
+  vez que se activa un theme su familia todavía no está en memoria y
+  mediríamos las líneas con la tipografía de sistema.
+*/
+function rebuildWhenFontsReady() {
+    document.fonts.ready.then(build);
+}
+
+function init() {
+    readPalette();
+    rebuildWhenFontsReady();
+
+    document.addEventListener("themechange", () => {
+        readPalette();
+        rebuildWhenFontsReady();
+    });
+
+    // Solo ancho: en móvil el scroll muestra y oculta la barra del navegador,
+    // lo que dispara resize por cambios de ALTO que no afectan al wrap.
+    let lastWidth = window.innerWidth;
+    let timer;
+    window.addEventListener("resize", () => {
+        if (window.innerWidth === lastWidth) return;
+        lastWidth = window.innerWidth;
+        clearTimeout(timer);
+        timer = setTimeout(build, 200);
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+} else {
+    init();
+}

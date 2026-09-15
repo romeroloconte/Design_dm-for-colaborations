@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luis Romero Loconte</title>
+  <!--
+    Una familia por theme. Se cargan las tres por adelantado: cambiar de
+    theme no debe esperar a una descarga, y son ~40KB en woff2 entre todas.
+    preconnect abre la conexión TLS mientras el HTML aún se parsea.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Anybody:wdth,wght@50..150,100..900&display=swap">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=clash-display@400,500,600,700&display=swap">
+
   <link rel="stylesheet" href="style/tokens.css">
   <link rel="stylesheet" href="style/styles.css">
   <script>

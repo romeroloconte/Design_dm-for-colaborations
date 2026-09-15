@@ -20,6 +20,11 @@
 */
 
 :root {
+  /* --- Primitivos: familias tipográficas --- */
+  --family-inter: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --family-clash: "Clash Display", "Inter", system-ui, sans-serif;
+  --family-anybody: "Anybody", "Inter", system-ui, sans-serif;
+
   /* --- Primitivos: neutrales --- */
   --color-black:      #000000;
   --color-grey-900:   #141414;
@@ -98,6 +103,12 @@
 
   --accent-interactive: var(--color-violet);   /* 8.65:1 sobre el canvas */
 
+  /* Tipografía del h1 — ver nota sobre el trío acoplado */
+  --font-display:          var(--family-inter);
+  --font-display-weight:   500;
+  --font-display-stretch:  100%;
+  --font-display-tracking: -0.02em;
+
   /* Ruido sobre el panel de la foto: en oscuro aclara */
   --photo-noise-blend: overlay;
   --photo-noise-alpha: 0.25;
@@ -121,6 +132,16 @@
   --border-strong:    rgba(0, 0, 0, 0.32);
 
   --accent-interactive: var(--color-violet);   /* 2.43:1 — flojo, pendiente */
+
+  /*
+    Clash Display es display y ya viene apretada de dibujo: el tracking
+    negativo de Inter la empastaría. Peso 600 porque pesa ópticamente menos
+    que Inter al mismo número.
+  */
+  --font-display:          var(--family-clash);
+  --font-display-weight:   600;
+  --font-display-stretch:  100%;
+  --font-display-tracking: -0.005em;
 
   /* multiply en claro: overlay sobre blanco no deja rastro visible */
   --photo-noise-blend: multiply;
@@ -151,6 +172,18 @@
     canvas de esta luminosidad, ya que no hay nada más claro que el blanco.
   */
   --accent-interactive: var(--color-white);
+
+  /*
+    Anybody condensada al 90%. Expandirla era lo tentador, pero las líneas
+    de 20 caracteres ("UX & Visual Designer") ya rozan el 80% de ancho con
+    Inter: al 125% rompen en dos y el hero se sale del viewport. Condensada
+    también contrasta con Clash, que es ancha por naturaleza.
+    Tracking a 0: ya estrecha, el negativo la cerraría demasiado.
+  */
+  --font-display:          var(--family-anybody);
+  --font-display-weight:   700;
+  --font-display-stretch:  90%;
+  --font-display-tracking: 0em;
 
   /*
     El canvas es de luminosidad media, no un extremo: multiply mantiene el
