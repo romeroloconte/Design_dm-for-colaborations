@@ -1,7 +1,11 @@
 :root {
   --edge-inset: 3vh;
 }
+
 body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: 0;
   background-color: var(--bg-canvas);
   color: var(--text-primary);
@@ -55,12 +59,20 @@ body {
   box-sizing: border-box;
   z-index: 10;
 }
-.site-nav__link--home {
+
+.site-nav__link--back {
   margin-right: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.site-nav__arrow {
+  font-size: 1.05em;
+  line-height: 1;
 }
 .site-nav__link {
   font-family: var(--family-inter);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 300;
   letter-spacing: -0.02rem;
   color: var(--text-primary);
@@ -72,7 +84,7 @@ body {
 }
 @media (max-width: 768px) {
   .site-nav__link {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 .theme-switcher {
@@ -195,11 +207,13 @@ body {
   grid-row: 3;
   align-self: end;
 }
+
 .social-links--footer {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 0 0 8vh;
+
+  margin: auto 0 var(--edge-inset);
 }
 .social-link {
   color: var(--text-primary);
@@ -276,16 +290,7 @@ body {
   flex-direction: column;
   gap: 40px;
 }
-/*
-  El asset lo decide el theme, pero el elemento sigue siendo un <img>: así
-  conserva alt, loading="lazy" (están bajo el fold y pesan) y los width/
-  height que reservan el hueco antes de descargar. `content` sustituye la
-  imagen pintada sin tocar nada de eso, y la ruta se queda en tokens.css
-  junto al resto de decisiones de theme.
 
-  El src del HTML apunta al asset de dark — el theme por defecto — y hace
-  de fallback si el CSS no carga.
-*/
 .about-diagram {
   display: block;
   width: 100%;
@@ -294,11 +299,6 @@ body {
 .about-diagram--sitemap { content: var(--diagram-sitemap-src); }
 .about-diagram--flow    { content: var(--diagram-flow-src); }
 
-/*
-  El mockup es casi cuadrado (1200/1008), no apaisado como los diagramas:
-  manda la imagen y el hueco toma su ratio. Por eso no reutiliza
-  .about-diagram, que asume proporción ancha.
-*/
 .about-mockup {
   display: block;
   width: 100%;
@@ -387,11 +387,7 @@ body {
   font-stretch: var(--font-heading-stretch);
   letter-spacing: var(--font-heading-tracking);
   font-size: 18px;
-  /*
-    1.4, no 1.3: con tracking abierto el texto ocupa más ancho y encadena
-    más líneas. Si el interlineado no acompaña, el ojo pierde el salto de
-    línea y la lectura se entorpece justo en los h3 largos.
-  */
+
   line-height: 1.4;
   text-align: left;
   color: var(--text-primary);
@@ -416,21 +412,43 @@ body {
   color: var(--text-secondary);
   text-align: left;
 }
-.about-toggle {
+
+.about-reveal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: none;
   border: none;
   color: var(--text-primary);
   font-family: var(--family-inter);
-  font-size: 24px;
   line-height: 1;
   padding: 0;
   cursor: pointer;
   transition: color 0.2s ease;
 }
-.about-toggle:hover {
+.about-reveal__icon {
+  font-size: 24px;
+  line-height: 1;
+
+  display: inline-block;
+  transform-origin: 50% 50%;
+}
+
+.about-reveal__label {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.02rem;
+  line-height: 1;
+}
+.about-reveal:hover {
   color: var(--accent-interactive);
 }
-.about-toggle[hidden] {
+.about-reveal:focus-visible {
+  outline: 2px solid var(--accent-interactive);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.about-reveal[hidden] {
   display: none;
 }
 @media (min-width: 901px) {
@@ -478,7 +496,7 @@ body {
     max-width: 100%;
     align-items: flex-start;
   }
-  .about-content .about-toggle {
+  .about-content .about-reveal {
     align-self: center;
   }
   .about-text p {

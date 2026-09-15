@@ -26,45 +26,64 @@
     heading.focus({ preventScroll: true });
   }
 
-  function settle(trigger, target) {
+  function dismiss(trigger) {
     trigger.hidden = true;
     trigger.setAttribute("aria-expanded", "true");
+  }
+
+  function settle(target) {
     announce(target);
     focusHeading(target);
+  }
+
+  function scrollTo(target, smooth) {
+    const top = target.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top, behavior: smooth ? "smooth" : "auto" });
   }
 
   function reveal(trigger) {
     const target = nextModule(trigger);
     if (!target) return;
 
-    target.hidden = false;
-
     if (reduced.matches || typeof gsap === "undefined") {
-      settle(trigger, target);
-      target.scrollIntoView({ block: "start" });
+      target.hidden = false;
+      dismiss(trigger);
+      scrollTo(target, false);
+      settle(target);
       return;
     }
 
-    gsap.set(target, { overflow: "hidden" });
-    gsap.from(target, {
-      height: 0,
-      minHeight: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-      opacity: 0,
-      duration: 0.7,
-      ease: "power2.out",
-      clearProps: "overflow,height,minHeight,paddingTop,paddingBottom,opacity",
+    const parts = Array.from(target.children);
+    const icon = trigger.querySelector(".about-reveal__icon");
+
+    gsap.timeline({
       onComplete: () => {
-        settle(trigger, target);
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        gsap.set(parts, { clearProps: "opacity,transform" });
+        settle(target);
       }
-    });
+    })
+      .to(trigger, { opacity: 0, scale: 0.85, duration: 0.2, ease: "power2.in" }, 0)
+      .to(icon, { rotate: 45, duration: 0.2, ease: "power2.in" }, 0)
+      .add(() => {
+        dismiss(trigger);
+        target.hidden = false;
+        gsap.set(parts, { opacity: 0, y: 24 });
+        scrollTo(target, true);
+      }, 0.2)
+      .to(parts, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "power2.out"
+      }, 0.28);
   }
 
   function prune() {
     document.querySelectorAll(TRIGGER).forEach((trigger) => {
-      trigger.hidden = !nextModule(trigger);
+      const target = nextModule(trigger);
+      trigger.hidden = !target;
+      if (target && target.id) trigger.setAttribute("aria-controls", target.id);
     });
   }
 

@@ -1,4 +1,4 @@
-gsap.registerPlugin(SplitText, ScrollTrigger);
+gsap.registerPlugin(SplitText);
 const ACCENT_TOKENS = ["--accent-1", "--accent-2", "--accent-3", "--accent-4", "--accent-5"];
 let accentPalette = [];
 let baseColor = "";
