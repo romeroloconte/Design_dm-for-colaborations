@@ -1,0 +1,38 @@
+{
+  "projects": [
+    {
+      "id": "project-1",
+      "title": "Título del proyecto",
+      "start": "Jan 2023",
+      "end": "Jun 2024",
+      "role": "Rol / Design System Designer",
+      "image": "media/project-1.png",
+      "alt": "Descripción de la captura para lectores de pantalla",
+      "blocks": [
+        {
+          "lead": "Library & Documentation Management.",
+          "text": "Cuerpo del párrafo. El lead-in va en bold, el resto en texto normal."
+        },
+        {
+          "lead": "Component Lifecycle.",
+          "text": "Segundo bloque."
+        }
+      ]
+    },
+    {
+      "id": "project-2",
+      "title": "Segundo proyecto",
+      "start": "Feb 2024",
+      "end": "Present",
+      "role": "Rol",
+      "image": "media/project-2.png",
+      "alt": "Descripción de la captura",
+      "blocks": [
+        {
+          "lead": "Lead-in.",
+          "text": "Cuerpo."
+        }
+      ]
+    }
+  ]
+}

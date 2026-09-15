@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Luis Romero Loconte</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Anybody:wdth,wght@50..150,100..900&display=swap">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=clash-display@400,500,600,700&display=swap">
+
+  <link rel="stylesheet" href="style/tokens.css">
+  <link rel="stylesheet" href="style/styles.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("rl-theme");
+        if (/^[a-z0-9-]{1,32}$/.test(t || "")) {
+          document.documentElement.setAttribute("data-theme", t);
+          return;
+        }
+      } catch (e) {}
+      document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="site-nav__link site-nav__link--back"><span class="site-nav__arrow" aria-hidden="true">&#8592;</span>Back</a>
+    <a href="who_i_am.html" class="site-nav__link site-nav__link--left">Who i am</a>
+    <a href="recent_projects.html" class="site-nav__link site-nav__link--right">Recent projects</a>
+    <div data-theme-switcher hidden></div>
+  </nav>
+
+  <main class="vault" data-vault>
+
+    <section class="vault__gate" data-vault-gate>
+      <h1 class="vault__heading" data-glitch>Protected work</h1>
+
+      <p class="vault__note">Some of what I build cannot sit in the open. It lives here, and it opens with a key I hand out myself.</p>
+
+      <form class="vault__form" data-vault-form novalidate>
+        <label class="vault__label" for="vault-key">Access key</label>
+        <div class="vault__row">
+          <input
+            class="vault__input"
+            id="vault-key"
+            type="password"
+            name="vault-key"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+            data-vault-input>
+          <button class="vault__submit" type="submit" data-vault-submit>Unlock</button>
+        </div>
+        <p class="vault__error" role="alert" data-vault-error hidden></p>
+      </form>
+
+    </section>
+
+    <div class="vault__stage" data-vault-stage hidden></div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/SplitText.min.js"></script>
+  <script src="js/gsap.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/modules.js" defer></script>
+  <script src="js/vault.js" defer></script>
+
+</body>
+</html>
