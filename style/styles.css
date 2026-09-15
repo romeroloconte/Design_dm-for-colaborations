@@ -1,18 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-body {
-  background-color: #000;
-  color: #fff
+/*
+  Ningún valor de color literal por debajo de esta línea.
+  Todo color sale de los semánticos declarados en style/tokens.css.
+*/
+
+/*
+  Inset único de borde. La nav lo usa arriba y las social links abajo,
+  así el espacio al tope y al fondo del viewport es el mismo.
+*/
+:root {
+  --edge-inset: 3vh;
 }
 
+body {
+  margin: 0;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}
+
+/*
+  Rejilla de 3 filas: 1fr / auto / 1fr.
+  El bloque de h1 queda ópticamente centrado en el viewport y las social
+  links se apoyan en el borde inferior del padding, sin números mágicos.
+*/
 .title {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  justify-items: center;
   min-height: 100vh;
-  padding-block: 8vh;
+  padding-block: var(--edge-inset);
   box-sizing: border-box;
   cursor: crosshair;
 
@@ -25,20 +50,33 @@ body {
     line-height: 1.1;
     text-align: center;
     width: 80%;
+    margin-inline: auto;
     font-weight: 500;
-    
+
     div {
       position: relative;
     }
   }
 }
 
+/*
+  Contenedor del stack de títulos. El ritmo vertical entre líneas lo fija
+  el line-height del h1 (margin 0), así el hueco es idéntico entre todas.
+*/
+.title__lines {
+  grid-row: 2;
+  width: 100%;
+}
+
+/* ------------------------------------------------------------------ NAV */
+
 .site-nav {
   position: fixed;
-  top: 3vh;
+  top: var(--edge-inset);
   left: 0;
   width: 100%;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 3vw;
   padding-inline: 3vw;
@@ -55,13 +93,13 @@ body {
   font-size: 20px;
   font-weight: 300;
   letter-spacing: -0.02rem;
-  color: #fff;
+  color: var(--text-primary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .site-nav__link:hover {
-  color: #A19BFF;
+  color: var(--accent-interactive);
 }
 
 @media (max-width: 768px) {
@@ -70,11 +108,163 @@ body {
   }
 }
 
+/* -------------------------------------------------------- THEME SWITCHER */
+
+.theme-switcher {
+  position: relative;
+  font-family: "Inter";
+}
+
+.theme-switcher__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: -0.02rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.theme-switcher__trigger:hover {
+  color: var(--accent-interactive);
+  border-color: var(--border-strong);
+}
+
+.theme-switcher__trigger:focus-visible {
+  outline: 2px solid var(--accent-interactive);
+  outline-offset: 2px;
+}
+
+/*
+  Indicador único del componente: el mismo puntito en el trigger y en el
+  menú. Monocromo en currentColor, así que nunca introduce un color que no
+  sea el del theme activo.
+*/
+.theme-switcher__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+
+.theme-switcher__caret {
+  font-size: 10px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.theme-switcher__trigger[aria-expanded="true"] .theme-switcher__caret {
+  transform: rotate(180deg);
+}
+
+.theme-switcher__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 135px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.theme-switcher__menu[hidden] {
+  display: none;
+}
+
+.theme-switcher__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: -0.02rem;
+  text-align: left;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.theme-switcher__option:hover {
+  color: var(--text-primary);
+  background-color: var(--border-subtle);
+}
+
+.theme-switcher__option[aria-checked="true"] {
+  color: var(--text-primary);
+}
+
+.theme-switcher__option:focus-visible {
+  outline: 2px solid var(--accent-interactive);
+  outline-offset: -2px;
+}
+
+/*
+  En el menú el punto es binario: está en el theme seleccionado y en
+  ninguno más. No hay estado "vacío" dibujado — el hueco se reserva igual
+  para que el texto no se desplace al cambiar de selección.
+
+  El punto NO reacciona al hover: es exclusivamente indicador de estado.
+  El hover se comunica en la fila (fondo + color de texto), así nada
+  compite con la lectura de qué theme está activo.
+*/
+.theme-switcher__option .theme-switcher__dot {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.theme-switcher__option[aria-checked="true"] .theme-switcher__dot {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-switcher__option .theme-switcher__dot {
+    transition: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .theme-switcher__trigger {
+    font-size: 13px;
+    padding: 5px 11px;
+  }
+
+  .theme-switcher__trigger .theme-switcher__label {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------- SOCIAL */
+
 .social-links {
-  margin-top: 12.6vh;
   display: inline-flex;
   align-items: center;
   gap: 28px;
+}
+
+/* Pegadas al borde inferior del padding del .title (= --edge-inset). */
+.title .social-links {
+  grid-row: 3;
+  align-self: end;
 }
 
 .social-links--footer {
@@ -83,6 +273,20 @@ body {
   justify-content: center;
   margin: 0 0 8vh;
 }
+
+.social-link {
+  color: var(--text-primary);
+  fill: var(--text-primary);
+  display: inline-flex;
+  transition: color 0.2s ease, fill 0.2s ease;
+}
+
+.social-link:hover {
+  color: var(--accent-interactive);
+  fill: var(--accent-interactive);
+}
+
+/* ---------------------------------------------------------------- ABOUT */
 
 .about {
   width: 100%;
@@ -127,10 +331,14 @@ body {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  /* termina en el mismo negro sólido del body (#000), no en transparente:
-     un alpha-fade revela lo que haya detrás y puede leerse distinto según
-     compositing/viewport; con un stop sólido siempre da el mismo negro. */
-  background: linear-gradient(180deg, rgba(75, 75, 75, 1) 0%, #000 100%);
+  /*
+    El gradiente termina en --bg-panel-to, que cada theme hace coincidir
+    con su --bg-canvas: un stop SÓLIDO, no un alpha-fade. Un fade con
+    alpha revela lo que haya detrás y se lee distinto según el
+    compositing del navegador; con un stop sólido el empalme con el
+    fondo es idéntico en todos los themes.
+  */
+  background: linear-gradient(180deg, var(--bg-panel-from) 0%, var(--bg-panel-to) 100%);
   z-index: 1;
 }
 
@@ -151,7 +359,7 @@ body {
   width: var(--photo-w);
   max-width: none;
   height: auto;
-  filter: grayscale(1);
+  filter: grayscale(var(--photo-grayscale, 1));
 }
 
 .about-photo__frame::before {
@@ -159,8 +367,8 @@ body {
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.25;
-  mix-blend-mode: overlay;
+  opacity: var(--photo-noise-alpha, 0.25);
+  mix-blend-mode: var(--photo-noise-blend, overlay);
   pointer-events: none;
 }
 
@@ -187,14 +395,14 @@ body {
   font-size: 18px;
   line-height: 150%;
   letter-spacing: 0%;
-  color: #DCDCDC;
+  color: var(--text-secondary);
   text-align: left;
 }
 
 .about-toggle {
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   font-family: "Inter";
   font-size: 24px;
   line-height: 1;
@@ -204,7 +412,7 @@ body {
 }
 
 .about-toggle:hover {
-  color: #A19BFF;
+  color: var(--accent-interactive);
 }
 
 /*
@@ -273,17 +481,7 @@ body {
   }
 }
 
-.social-link {
-  color: #fff;
-  fill: #fff;
-  display: inline-flex;
-  transition: color 0.2s ease, fill 0.2s ease;
-}
-
-.social-link:hover {
-  color: #A19BFF;
-  fill: #A19BFF;
-}
+/* --------------------------------------------------------------- DETAIL */
 
 .detail-size {
   position: absolute;

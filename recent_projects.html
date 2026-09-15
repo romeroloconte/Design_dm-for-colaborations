@@ -4,7 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luis Romero Loconte</title>
+  <link rel="stylesheet" href="style/tokens.css">
   <link rel="stylesheet" href="style/styles.css">
+  <script>
+    /*
+      Anti-FOUC: el theme se fija ANTES del primer paint. Si esto viviera
+      en theme.js (defer) la página pintaría un frame en dark antes de
+      corregirse. Único bloque inline del sitio, y a propósito.
+
+      No lleva la lista de themes: sería un tercer sitio que actualizar al
+      añadir uno. Escribe lo que haya en storage y ya está — un id que no
+      exista no casa con ningún bloque [data-theme] y la página hereda el
+      :root, que es dark. theme.js lo normaliza después. Sin flash y sin
+      duplicar el registro.
+    */
+    (function () {
+      try {
+        var t = localStorage.getItem("rl-theme");
+        if (/^[a-z0-9-]{1,32}$/.test(t || "")) {
+          document.documentElement.setAttribute("data-theme", t);
+          return;
+        }
+      } catch (e) { /* storage bloqueado */ }
+      document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
 </head>
 <body>
 
@@ -12,10 +36,13 @@
     <a href="index.html" class="site-nav__link site-nav__link--home">home</a>
     <a href="who_i_am.html" class="site-nav__link site-nav__link--left">who i am?</a>
     <a href="recent_projects.html" class="site-nav__link site-nav__link--right">recent projects</a>
+    <div data-theme-switcher hidden></div>
   </nav>
   
   <section class="title">
-    <h1>Coming soon...</h1>
+    <div class="title__lines">
+      <h1>Coming soon...</h1>
+    </div>
 
     <div class="social-links">
       <a href="https://www.linkedin.com/in/romeroloconte/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn de Luis Romero Loconte">
@@ -42,6 +69,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/SplitText.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script src="js/gsap.js" defer></script>
+  <script src="js/theme.js" defer></script>
 
 </body>
 </html>

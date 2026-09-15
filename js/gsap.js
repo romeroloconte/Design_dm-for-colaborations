@@ -1,5 +1,43 @@
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
+/*
+  Paleta del efecto
+  -----------------
+  Los colores NO viven aquí. Salen de --accent-1..5 y --text-primary
+  (style/tokens.css), así que un theme nuevo no obliga a tocar este
+  archivo. Se cachean y se refrescan solo al cambiar de theme.
+*/
+const ACCENT_TOKENS = ["--accent-1", "--accent-2", "--accent-3", "--accent-4", "--accent-5"];
+
+let accentPalette = [];
+let baseColor = "";
+
+function readPalette() {
+    const styles = getComputedStyle(document.documentElement);
+    accentPalette = ACCENT_TOKENS
+        .map((token) => styles.getPropertyValue(token).trim())
+        .filter(Boolean);
+    baseColor = styles.getPropertyValue("--text-primary").trim() || "currentColor";
+}
+
+readPalette();
+
+document.addEventListener("themechange", () => {
+    readPalette();
+    // Un hover a medias deja color inline; al cambiar de theme se corta la
+    // animación y se devuelve el carácter a su estado heredado.
+    document.querySelectorAll("h1 [style*='color']").forEach((char) => {
+        gsap.killTweensOf(char);
+        char.style.removeProperty("color");
+        char.style.border = "none";
+        if (char.dataset.orig) { char.textContent = char.dataset.orig; }
+    });
+});
+
+function randomAccent() {
+    return gsap.utils.random(accentPalette);
+}
+
 function split(el) {
     return new SplitText(el, { type: "lines, chars" });
 }
@@ -25,14 +63,8 @@ texts.forEach((txt) => {
                 // 2. Calcola la distanza dal centro (il centro avrà distanza 0)
                 const distanceFromCenter = Math.abs(index - middleIndex);
 
-                gsap.fromTo(char, {color: "#fff"},{
-                    color: gsap.utils.random([
-                        "#85AF00", 
-                        "#FFCC00", 
-                        "#FB9CFD", 
-                        "#A19BFF", 
-                        "#FF4C00"
-                    ]),
+                gsap.fromTo(char, { color: baseColor }, {
+                    color: randomAccent(),
                     ease: "power3.out",
                     duration: 0.3,
                     delay: distanceFromCenter * 0.03, 
@@ -75,13 +107,18 @@ texts.forEach((txt) => {
 
                         // Generazione di bordi
                         if(randomNumThree == 1) {
-                            char.style.border = `1px solid ${gsap.utils.random(["#85AF00", "#FFCC00", "#FB9CFD", "#A19BFF", "#FF4C00"])}`
+                            char.style.border = `1px solid ${randomAccent()}`
                         }
                     },
 
                     onComplete: () => {
                         char.textContent = char.dataset.orig;
                         char.style.border = "none"
+                        // Se libera el color inline: el carácter vuelve a heredar
+                        // --text-primary. Si no, conservaría el hex del theme que
+                        // estuviera activo durante el hover y se quedaría
+                        // desincronizado al cambiar de theme.
+                        char.style.removeProperty("color");
                     }
                 });
             });

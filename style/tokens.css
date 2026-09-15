@@ -1,0 +1,162 @@
+/*
+  TOKENS
+  ======
+  Dos capas:
+
+  1. PRIMITIVOS  --color-*  valores crudos, sin significado. No se usan
+     nunca directamente en styles.css.
+  2. SEMÁNTICOS  --bg-*, --text-*, --border-*, --accent-interactive  se
+     declaran una vez por theme en [data-theme] y son los ÚNICOS que
+     consume la UI.
+
+  Añadir un theme = un bloque [data-theme="x"] aquí + una entrada en el
+  array THEMES de js/theme.js. Ningún selector de styles.css se toca.
+
+  Excepción: --accent-1..5 (paleta del efecto glitch) viven en :root y son
+  fijos por decisión de marca. Coste conocido y medido: sobre canvas claro
+  o de color se degradan — 4/5 por debajo de 3:1 en light, 5/5 en brad.
+  Moverlos dentro de cada bloque no requiere tocar JS: gsap.js ya los lee
+  por token y se refresca con el evento themechange.
+*/
+
+:root {
+  /* --- Primitivos: neutrales --- */
+  --color-black:      #000000;
+  --color-grey-900:   #141414;
+  --color-grey-700:   #4B4B4B;
+  --color-grey-400:   #8A8A8A;
+  --color-grey-200:   #DCDCDC;
+  --color-grey-100:   #EDEDED;
+  --color-white:      #FFFFFF;
+
+  /* --- Primitivos: Brad (homenaje a Brad Frost) --- */
+  --color-brad:        #9B6CCA;  /* el valor de marca, intacto */
+  --color-brad-ink:    #1A0E24;  /* 4.76:1 sobre el canvas — AA */
+  /*
+    Secundario a 4.64:1. Casi pegado al primario, y no es un descuido: el
+    canvas de marca tiene luminosidad media (L≈0.22), así que entre él y
+    el negro solo caben ~4.8 puntos de ratio. Dos niveles de tinta con AA
+    no entran. En Brad la jerarquía de texto la carga el peso tipográfico,
+    no el color — bajar más este token rompería AA en los párrafos de 18px.
+  */
+  --color-brad-ink-2:  #1E1029;
+  --color-brad-deep:   #5C3E7A;  /* arranque del degradado del panel */
+  --color-brad-surf:   #AE84D7;  /* superficie elevada (menú) */
+
+  /* --- Primitivos: paleta de acento (fija, cross-theme) --- */
+  --color-lime:       #85AF00;
+  --color-yellow:     #FFCC00;
+  --color-pink:       #FB9CFD;
+  --color-violet:     #A19BFF;
+  --color-orange:     #FF4C00;
+
+  /* --- Acentos semánticos: idénticos en todos los themes --- */
+  --accent-1: var(--color-lime);
+  --accent-2: var(--color-yellow);
+  --accent-3: var(--color-pink);
+  --accent-4: var(--color-violet);
+  --accent-5: var(--color-orange);
+
+  /*
+    --accent-interactive (hover de nav, links, botones y anillo de foco)
+    NO vive aquí: depende del canvas sobre el que se lee, así que cada
+    theme declara el suyo. Un violeta de marca sobre un canvas violeta da
+    1.60:1 — el mismo hue peleando consigo mismo.
+  */
+}
+
+/*
+  Los bloques de theme NO se anclan a :root. Al escribirlos como
+  [data-theme="x"] cualquier elemento puede portar un theme, no solo el
+  documento, lo que permite theme scoping local: una sección en otro
+  theme sin duplicar una línea de CSS.
+
+  CUIDADO con el reverso: cualquier elemento con data-theme se
+  auto-thematiza. Por eso el selector guarda el id de cada opción en
+  data-theme-id y no en data-theme — si no, el botón "Light" resolvería
+  sus tokens bajo el theme light y pintaría texto oscuro sobre el menú
+  oscuro. Hay un test de regresión que lo vigila.
+*/
+
+/* ---------------------------------------------------------------- DARK */
+/* Theme por defecto. También aplica si falta el atributo data-theme. */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-canvas:        var(--color-black);
+  --bg-panel-from:    var(--color-grey-700);
+  --bg-panel-to:      var(--color-black);
+  --bg-surface:       var(--color-grey-900);
+
+  --text-primary:     var(--color-white);
+  --text-secondary:   var(--color-grey-200);
+  --text-muted:       var(--color-grey-400);
+
+  --border-subtle:    rgba(255, 255, 255, 0.16);
+  --border-strong:    rgba(255, 255, 255, 0.32);
+
+  --accent-interactive: var(--color-violet);   /* 8.65:1 sobre el canvas */
+
+  /* Ruido sobre el panel de la foto: en oscuro aclara */
+  --photo-noise-blend: overlay;
+  --photo-noise-alpha: 0.25;
+  --photo-grayscale:   1;
+}
+
+/* --------------------------------------------------------------- LIGHT */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-canvas:        var(--color-white);
+  --bg-panel-from:    var(--color-grey-200);
+  --bg-panel-to:      var(--color-white);
+  --bg-surface:       var(--color-grey-100);
+
+  --text-primary:     var(--color-black);
+  --text-secondary:   var(--color-grey-700);
+  --text-muted:       var(--color-grey-400);
+
+  --border-subtle:    rgba(0, 0, 0, 0.16);
+  --border-strong:    rgba(0, 0, 0, 0.32);
+
+  --accent-interactive: var(--color-violet);   /* 2.43:1 — flojo, pendiente */
+
+  /* multiply en claro: overlay sobre blanco no deja rastro visible */
+  --photo-noise-blend: multiply;
+  --photo-noise-alpha: 0.18;
+  --photo-grayscale:   1;
+}
+
+/* ---------------------------------------------------------------- BRAD */
+/* Homenaje a Brad Frost. Canvas de marca, tinta violeta oscura encima. */
+[data-theme="brad"] {
+  color-scheme: light;
+
+  --bg-canvas:        var(--color-brad);
+  --bg-panel-from:    var(--color-brad-deep);
+  --bg-panel-to:      var(--color-brad);
+  --bg-surface:       var(--color-brad-surf);
+
+  --text-primary:     var(--color-brad-ink);
+  --text-secondary:   var(--color-brad-ink-2);
+  --text-muted:       var(--color-brad-deep);
+
+  --border-subtle:    rgba(26, 14, 36, 0.20);
+  --border-strong:    rgba(26, 14, 36, 0.38);
+
+  /*
+    Blanco, no el violeta de marca: ese acento sobre este canvas da 1.60:1
+    (mismo hue). El blanco sube a 3.89:1 — el máximo alcanzable sobre un
+    canvas de esta luminosidad, ya que no hay nada más claro que el blanco.
+  */
+  --accent-interactive: var(--color-white);
+
+  /*
+    El canvas es de luminosidad media, no un extremo: multiply mantiene el
+    grano visible sin lavar el violeta, cosa que overlay sí haría.
+  */
+  --photo-noise-blend: multiply;
+  --photo-noise-alpha: 0.20;
+  --photo-grayscale:   1;
+}
