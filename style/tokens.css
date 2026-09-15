@@ -100,11 +100,13 @@
   --bg-surface:       var(--color-brad-surf);
   --text-primary:     var(--color-brad-ink);
   --text-secondary:   var(--color-brad-ink-2);
-  --text-muted:       var(--color-brad-deep);
+  --text-muted:       var(--color-brad-ink);
+
   --border-subtle:    rgba(26, 14, 36, 0.20);
   --border-strong:    rgba(26, 14, 36, 0.38);
-  --chip-bg:          var(--color-white);
-  --chip-text:        var(--color-brad-ink);
+
+  --chip-bg:          var(--color-brad-ink);
+  --chip-text:        var(--color-white);
   --accent-interactive: var(--color-white);
   --font-display:          var(--family-anybody);
   --font-display-weight:   700;

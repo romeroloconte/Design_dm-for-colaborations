@@ -36,9 +36,32 @@
     focusHeading(target);
   }
 
+  function place(target, smooth) {
+    const nav = document.querySelector(".site-nav");
+    const offset = nav ? nav.offsetHeight : 0;
+    const pad = parseFloat(getComputedStyle(target).paddingTop) || 0;
+    const breath = window.innerHeight * 0.06;
+    const top = target.getBoundingClientRect().top + window.scrollY + pad - offset - breath;
+    window.scrollTo({ top: Math.max(top, 0), behavior: smooth ? "smooth" : "auto" });
+  }
+
   function scrollTo(target, smooth) {
-    const top = target.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top, behavior: smooth ? "smooth" : "auto" });
+    const images = Array.from(target.querySelectorAll("img")).filter((img) => !img.complete);
+    if (!images.length) {
+      place(target, smooth);
+      return;
+    }
+    let done = false;
+    const go = () => {
+      if (done) return;
+      done = true;
+      place(target, smooth);
+    };
+    images.forEach((img) => {
+      img.addEventListener("load", go, { once: true });
+      img.addEventListener("error", go, { once: true });
+    });
+    window.setTimeout(go, 600);
   }
 
   function reveal(trigger) {

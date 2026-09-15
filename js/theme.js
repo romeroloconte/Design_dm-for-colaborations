@@ -111,6 +111,22 @@
     sync();
     host.hidden = false;
   }
+  function measureNav() {
+    var nav = document.querySelector(".site-nav");
+    if (!nav) { return; }
+    function write() {
+      document.documentElement.style.setProperty(
+        "--nav-height",
+        nav.offsetHeight + "px"
+      );
+    }
+    write();
+    if (typeof ResizeObserver === "function") {
+      new ResizeObserver(write).observe(nav);
+    } else {
+      window.addEventListener("resize", write);
+    }
+  }
   function init() {
     var initial = stored();
     document.documentElement.setAttribute(
@@ -119,6 +135,7 @@
     );
     var hosts = document.querySelectorAll("[data-theme-switcher]");
     Array.prototype.forEach.call(hosts, build);
+    measureNav();
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

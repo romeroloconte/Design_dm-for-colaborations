@@ -1,6 +1,8 @@
 :root {
   --edge-inset: 3vh;
   --footer-gap: 9vh;
+  --nav-height: calc(var(--edge-inset) * 2 + 32px);
+  --project-gap: 34vh;
 }
 
 body {
@@ -469,6 +471,9 @@ body {
   display: none;
 }
 @media (min-width: 901px) {
+  :root {
+    --project-gap: 42vh;
+  }
   .about {
     --photo-col: min(560px, 42vw);
     min-height: 82vh;
@@ -676,8 +681,21 @@ body {
   height: auto;
 }
 .about--project {
-  min-height: 100vh;
-  padding-block: 6vh;
+  min-height: 0;
+  padding-block: 0 calc(var(--project-gap) / 2);
+  align-items: flex-start;
+}
+.about--project:first-of-type {
+  padding-top: calc(var(--nav-height) + 6vh);
+}
+.about--project + .about--project {
+  padding-top: calc(var(--project-gap) / 2);
+}
+.about--project .about-media {
+  align-self: center;
+}
+.about--project .about-content {
+  align-self: flex-start;
 }
 .project-header {
   display: flex;
