@@ -85,15 +85,34 @@
   }
 
   function meta(project) {
+    const values = [project.start, project.end].filter(Boolean);
+    if (!values.length) return null;
+
     const wrap = document.createElement("p");
     wrap.className = "project-meta";
-    [project.start, project.end].filter(Boolean).forEach((value) => {
+
+    values.forEach((value, index) => {
+      if (index > 0) {
+        const separator = document.createElement("span");
+        separator.className = "project-meta__separator";
+        separator.setAttribute("aria-hidden", "true");
+        separator.textContent = "–";
+        wrap.appendChild(separator);
+      }
       const chip = document.createElement("span");
       chip.className = "project-chip";
       chip.textContent = value;
       wrap.appendChild(chip);
     });
-    return wrap.childElementCount ? wrap : null;
+
+    return wrap;
+  }
+
+  function placeholder() {
+    const frame = document.createElement("div");
+    frame.className = "about-placeholder about-placeholder--project";
+    frame.textContent = "Project image";
+    return frame;
   }
 
   function trigger(nextId) {
@@ -134,6 +153,8 @@
       shot.loading = index > 0 ? "lazy" : "eager";
       shot.decoding = "async";
       media.appendChild(shot);
+    } else {
+      media.appendChild(placeholder());
     }
 
     const content = document.createElement("div");
@@ -142,21 +163,31 @@
     const text = document.createElement("div");
     text.className = "about-text";
 
+    const header = document.createElement("div");
+    header.className = "project-header";
+
+    const head = document.createElement("div");
+    head.className = "project-head";
+
     const heading = document.createElement("h3");
-    heading.className = "about-heading";
+    heading.className = "about-heading about-heading--project";
     heading.setAttribute("data-glitch", "");
     heading.textContent = project.title || "";
-    text.appendChild(heading);
+    head.appendChild(heading);
 
     const chips = meta(project);
-    if (chips) text.appendChild(chips);
+    if (chips) head.appendChild(chips);
+
+    header.appendChild(head);
 
     if (project.role) {
       const role = document.createElement("p");
       role.className = "project-role";
       role.textContent = project.role;
-      text.appendChild(role);
+      header.appendChild(role);
     }
+
+    text.appendChild(header);
 
     (project.blocks || []).forEach((block) => text.appendChild(paragraph(block)));
 
