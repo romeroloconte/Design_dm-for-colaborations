@@ -74,6 +74,8 @@
   --components-like-src: url("../resources/components-like-dark.png");
   --micro-components-src: url("../resources/micro-components-dark.png");
   --watches-src: url("../resources/watches-dark.png");
+  --recent-laptop-front-src: url("../resources/recent-laptop-front-dark.png");
+  --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 }
 [data-theme="light"] {
   color-scheme: light;
@@ -110,6 +112,8 @@
   --components-like-src: url("../resources/components-like-light.png");
   --micro-components-src: url("../resources/micro-components-light.png");
   --watches-src: url("../resources/watches-light.png");
+  --recent-laptop-front-src: url("../resources/recent-laptop-front-light.png");
+  --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 }
 [data-theme="brad"] {
   color-scheme: light;
@@ -149,6 +153,8 @@
   --components-like-src: url("../resources/components-like-brad.png");
   --micro-components-src: url("../resources/micro-components-brad.png");
   --watches-src: url("../resources/watches-brad.png");
+  --recent-laptop-front-src: url("../resources/recent-laptop-front-brad.png");
+  --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 
   --radius-xs:   2px;
   --radius-sm:   2px;

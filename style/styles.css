@@ -426,6 +426,24 @@ body {
 .about-device[data-scrolled] .about-device__hint {
   opacity: 0;
 }
+.about-device.about-device--recent {
+  --device-ratio: 716 / 448;
+  --panel-left: 11.1732%;
+  --panel-top: 0%;
+  --panel-width: 77.514%;
+  --panel-height: 81.9196%;
+  --bezel-x: 1.5%;
+  --bezel-top: 4.5%;
+  --bezel-bottom: 1.2%;
+  --doc-ratio: 1440 / 6553;
+  background-image: var(--recent-laptop-front-src);
+}
+.about-device.about-device--recent .about-device__doc {
+  background-image: var(--recent-screen-behavior-src);
+}
+.about-device.about-device--recent .about-device__hint {
+  display: none;
+}
 .about-placeholder {
   display: flex;
   align-items: center;

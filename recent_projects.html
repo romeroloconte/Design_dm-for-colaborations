@@ -82,7 +82,14 @@
 
   <section class="about" id="project-2" data-module>
     <div class="about-media">
-      <img class="about-micro-components" src="resources/micro-components-dark.png" alt="Project screenshot: micro-interaction examples across components." width="925" height="807" loading="lazy" decoding="async">
+      <div class="about-device about-device--recent" data-device>
+        <div class="about-device__frame">
+          <div class="about-device__screen" tabindex="0" role="region" aria-label="Component micro-interactions, scrollable">
+            <div class="about-device__doc"></div>
+          </div>
+          <div class="about-device__hint" aria-hidden="true"></div>
+        </div>
+      </div>
     </div>
 
     <div class="about-content">
@@ -185,6 +192,7 @@
   <script src="js/gsap.js" defer></script>
   <script src="js/theme.js" defer></script>
   <script src="js/favicon-animate.js" defer></script>
+  <script src="js/device.js" defer></script>
 
 </body>
 </html>
