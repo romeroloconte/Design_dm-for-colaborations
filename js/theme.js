@@ -99,6 +99,30 @@
       e.stopPropagation();
       if (menu.hidden) { open(); } else { close(); }
     });
+    trigger.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        open();
+        options[e.key === "ArrowDown" ? 0 : options.length - 1].focus();
+      }
+    });
+    menu.addEventListener("keydown", function (e) {
+      var index = options.indexOf(document.activeElement);
+      if (index === -1) { return; }
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        options[(index + 1) % options.length].focus();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        options[(index - 1 + options.length) % options.length].focus();
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        options[0].focus();
+      } else if (e.key === "End") {
+        e.preventDefault();
+        options[options.length - 1].focus();
+      }
+    });
     document.addEventListener("click", function (e) {
       if (!host.contains(e.target)) { close(); }
     });

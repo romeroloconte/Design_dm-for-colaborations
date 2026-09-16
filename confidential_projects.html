@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Anybody:wdth,wght@50..150,100..900&display=swap">
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=clash-display@400,500,600,700&display=swap">
 
-  <link rel="stylesheet" href="style/tokens.css?v=21">
-  <link rel="stylesheet" href="style/styles.css?v=21">
+  <link rel="stylesheet" href="style/tokens.css?v=22">
+  <link rel="stylesheet" href="style/styles.css?v=22">
   <script>
     (function () {
       try {
@@ -30,6 +30,8 @@
 </head>
 <body>
 
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
   <nav class="site-nav">
     <a href="index.html" class="site-nav__link site-nav__link--back"><span class="site-nav__arrow" aria-hidden="true">&#8592;</span>Back</a>
     <a href="who_i_am.html" class="site-nav__link site-nav__link--left">Who i am</a>
@@ -37,7 +39,7 @@
     <div data-theme-switcher hidden></div>
   </nav>
 
-  <main class="vault" data-vault>
+  <main class="vault" id="main-content" tabindex="-1" data-vault>
 
     <section class="vault__gate" data-vault-gate>
       <h1 class="vault__heading" data-glitch>Protected work</h1>
