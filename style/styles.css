@@ -124,12 +124,14 @@ body {
     justify-content: flex-start;
     gap: 16px;
     /* deja libre la columna del switcher, que sale del flujo */
-    padding-right: calc(3vw + 92px);
+    padding-right: calc(3vw + 72px);
   }
   .site-nav__link--back {
     margin-right: 0;
   }
-  .theme-switcher {
+  /* .site-nav antepuesto: sube la especificidad para ganarle a
+     `.theme-switcher { position: relative }`, declarada mas abajo */
+  .site-nav .theme-switcher {
     position: absolute;
     top: var(--edge-inset);
     right: 3vw;
