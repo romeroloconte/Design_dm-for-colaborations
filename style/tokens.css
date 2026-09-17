@@ -50,6 +50,7 @@
   --text-muted:       var(--color-grey-400);
   --border-subtle:    rgba(255, 255, 255, 0.16);
   --border-strong:    rgba(255, 255, 255, 0.32);
+  --surface-hover:    rgba(255, 255, 255, 0.16);
   --chip-bg:          var(--color-white);
   --chip-text:        var(--color-black);
   --accent-interactive: var(--color-violet);
@@ -88,6 +89,7 @@
   --text-muted:       var(--color-grey-600);
   --border-subtle:    rgba(0, 0, 0, 0.16);
   --border-strong:    rgba(0, 0, 0, 0.32);
+  --surface-hover:    rgba(0, 0, 0, 0.16);
   --chip-bg:          var(--color-grey-200);
   --chip-text:        var(--color-black);
   --accent-interactive: var(--color-violet-deep);
@@ -127,6 +129,7 @@
 
   --border-subtle:    rgba(26, 14, 36, 0.35);
   --border-strong:    rgba(26, 14, 36, 0.55);
+  --surface-hover:    rgba(26, 14, 36, 0.35);
 
   --chip-bg:          var(--color-brad-ink);
   --chip-text:        var(--color-white);
