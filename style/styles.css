@@ -931,6 +931,108 @@ body {
     padding: 12px 24px;
   }
 }
+.about--skills {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: auto;
+  gap: 48px;
+  padding-top: 12vh;
+  padding-bottom: 12vh;
+}
+.skills {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.skills .about-heading {
+  text-align: left;
+}
+.skills-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+.skills-cluster:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+.skills-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px 24px;
+  width: 100%;
+}
+.skills-group__label {
+  flex: 0 0 auto;
+  width: 200px;
+  margin: 0;
+  font-family: var(--family-inter);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+}
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 13px;
+  column-gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex: 1 1 320px;
+}
+.skills-tag {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-family: var(--family-inter);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.skills-tag:hover {
+  color: var(--accent-interactive);
+  border-color: var(--border-strong);
+}
+@media (max-width: 900px) {
+  .about--skills {
+    padding-top: 6vh;
+    padding-bottom: 6vh;
+  }
+  .skills {
+    gap: 32px;
+  }
+  .skills-cluster {
+    gap: 28px;
+    padding-top: 32px;
+  }
+  .skills-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .skills-group__label {
+    width: auto;
+  }
+  .skills-tags {
+    flex: none;
+    width: 100%;
+  }
+}
 .detail-size {
   position: absolute;
   bottom: 0;
