@@ -84,6 +84,9 @@
   --recent-laptop-front-src: url("../resources/recent-laptop-front-dark.png");
   --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 }
+[data-theme="dark"] {
+  --radius-sm: 999px;
+}
 [data-theme="light"] {
   color-scheme: light;
   --bg-canvas:        var(--color-white);
@@ -125,6 +128,7 @@
   --watches-src: url("../resources/watches-light.png");
   --recent-laptop-front-src: url("../resources/recent-laptop-front-light.png");
   --recent-screen-behavior-src: url("../resources/micro-animations-.png");
+  --radius-sm: 999px;
 }
 [data-theme="grape"] {
   color-scheme: light;
@@ -172,7 +176,7 @@
   --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 
   --radius-xs:   2px;
-  --radius-sm:   2px;
+  --radius-sm:   6px;
   --radius-md:   6px;
   --radius-lg:   6px;
   --radius-pill: 6px;

@@ -1086,6 +1086,7 @@ body {
 [data-theme="draft"] .project-chip.drawably-card {
   padding: 4px 10px;
   font-family: var(--font-data);
+  background: transparent;
 }
 [data-theme="draft"] .skills-tag.drawably-card {
   padding: 6px 14px;
