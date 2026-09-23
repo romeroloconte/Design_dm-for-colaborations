@@ -3,7 +3,8 @@
   var THEMES = [
     { id: "dark",  label: "Dark" },
     { id: "light", label: "Light" },
-    { id: "brad",  label: "Brad" }
+    { id: "grape", label: "Grape" },
+    { id: "draft", label: "Draft" }
   ];
   var DEFAULT_THEME = "dark";
   var STORAGE_KEY = "rl-theme";
@@ -12,7 +13,12 @@
   }
   function stored() {
     try {
-      return window.localStorage.getItem(STORAGE_KEY);
+      var value = window.localStorage.getItem(STORAGE_KEY);
+      if (value === "brad") {
+        value = "grape";
+        persist(value);
+      }
+      return value;
     } catch (e) {
       return null;
     }

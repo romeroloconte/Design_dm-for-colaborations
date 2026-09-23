@@ -58,6 +58,16 @@ function glitchLine(line, chars) {
         });
     });
 }
+function boilChars(chars) {
+    chars.forEach((char) => {
+        char.classList.add("boil-char");
+        char.style.setProperty("--boil-dx", `${gsap.utils.random(-1, 1).toFixed(2)}px`);
+        char.style.setProperty("--boil-dy", `${gsap.utils.random(-1, 1).toFixed(2)}px`);
+        char.style.setProperty("--boil-rot", `${gsap.utils.random(-1.5, 1.5).toFixed(2)}deg`);
+        char.style.setProperty("--boil-duration", `${gsap.utils.random(900, 1500).toFixed(0)}ms`);
+        char.style.setProperty("--boil-delay", `-${gsap.utils.random(0, 1200).toFixed(0)}ms`);
+    });
+}
 let splits = [];
 const GLITCH_SELECTOR = "[data-glitch]";
 function build() {
@@ -69,6 +79,10 @@ function build() {
     gsap.utils.toArray(GLITCH_SELECTOR).forEach((txt) => {
         const instance = new SplitText(txt, { type: "lines, chars" });
         splits.push(instance);
+        if (document.documentElement.getAttribute("data-theme") === "draft") {
+            boilChars(instance.chars);
+            return;
+        }
         instance.lines.forEach((line) => {
             line.addEventListener("mouseenter", () => glitchLine(line, instance.chars));
         });

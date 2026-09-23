@@ -2,6 +2,8 @@
   --family-inter: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --family-clash: "Clash Display", "Inter", system-ui, sans-serif;
   --family-anybody: "Anybody", "Inter", system-ui, sans-serif;
+  --family-drawably: "Drawably Pen", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --family-geist-mono: "Geist Mono", ui-monospace, monospace;
   --color-black:      #000000;
   --color-grey-900:   #141414;
   --color-grey-700:   #4B4B4B;
@@ -10,17 +12,18 @@
   --color-grey-200:   #DCDCDC;
   --color-grey-100:   #EDEDED;
   --color-white:      #FFFFFF;
-  --color-brad:        #9B6CCA;
-  --color-brad-ink:    #1A0E24;
-  --color-brad-ink-2:  #1E1029;
-  --color-brad-deep:   #5C3E7A;
-  --color-brad-surf:   #AE84D7;
+  --color-grape:        #9B6CCA;
+  --color-grape-ink:    #1A0E24;
+  --color-grape-ink-2:  #1E1029;
+  --color-grape-deep:   #5C3E7A;
+  --color-grape-surf:   #AE84D7;
   --color-lime:       #85AF00;
   --color-yellow:     #FFCC00;
   --color-pink:       #FB9CFD;
   --color-violet:     #A19BFF;
   --color-violet-deep: #6B4FDE;
   --color-orange:     #FF4C00;
+  --color-drawably-ink: #2724D1;
   --accent-1: var(--color-lime);
   --accent-2: var(--color-yellow);
   --accent-3: var(--color-pink);
@@ -62,6 +65,9 @@
   --font-heading-weight:   600;
   --font-heading-stretch:  100%;
   --font-heading-tracking: 0.04em;
+  --font-body: var(--family-inter);
+  --font-data: var(--family-inter);
+
   --photo-noise-blend: overlay;
   --photo-noise-alpha: 0.25;
   --photo-grayscale:   1;
@@ -101,6 +107,9 @@
   --font-heading-weight:   600;
   --font-heading-stretch:  100%;
   --font-heading-tracking: 0.07em;
+  --font-body: var(--family-inter);
+  --font-data: var(--family-inter);
+
   --photo-noise-blend: multiply;
   --photo-noise-alpha: 0.18;
   --photo-grayscale:   1;
@@ -117,21 +126,21 @@
   --recent-laptop-front-src: url("../resources/recent-laptop-front-light.png");
   --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 }
-[data-theme="brad"] {
+[data-theme="grape"] {
   color-scheme: light;
-  --bg-canvas:        var(--color-brad);
-  --bg-panel-from:    var(--color-brad-deep);
-  --bg-panel-to:      var(--color-brad);
-  --bg-surface:       var(--color-brad-surf);
-  --text-primary:     var(--color-brad-ink);
-  --text-secondary:   var(--color-brad-ink-2);
-  --text-muted:       var(--color-brad-ink);
+  --bg-canvas:        var(--color-grape);
+  --bg-panel-from:    var(--color-grape-deep);
+  --bg-panel-to:      var(--color-grape);
+  --bg-surface:       var(--color-grape-surf);
+  --text-primary:     var(--color-grape-ink);
+  --text-secondary:   var(--color-grape-ink-2);
+  --text-muted:       var(--color-grape-ink);
 
   --border-subtle:    rgba(26, 14, 36, 0.35);
   --border-strong:    rgba(26, 14, 36, 0.55);
   --surface-hover:    rgba(26, 14, 36, 0.35);
 
-  --chip-bg:          var(--color-brad-ink);
+  --chip-bg:          var(--color-grape-ink);
   --chip-text:        var(--color-white);
   --accent-interactive: var(--color-white);
   --font-display:          var(--family-anybody);
@@ -142,21 +151,24 @@
   --font-heading-weight:   700;
   --font-heading-stretch:  95%;
   --font-heading-tracking: 0.04em;
+  --font-body: var(--family-inter);
+  --font-data: var(--family-inter);
+
   --photo-noise-blend: multiply;
   --photo-noise-alpha: 0.20;
   --photo-grayscale:   1;
   --photo-src: url("../resources/luis-romero-light.png");
 
-  --diagram-sitemap-src: url("../resources/diagram-sitemap-brad.png");
-  --diagram-flow-src:    url("../resources/diagram-flow-brad.png");
+  --diagram-sitemap-src: url("../resources/diagram-sitemap-grape.png");
+  --diagram-flow-src:    url("../resources/diagram-flow-grape.png");
 
-  --mockup-screens-src:  url("../resources/mockup-screens-brad.png");
-  --laptop-front-src:    url("../resources/laptop-front-brad.png");
-  --screen-behavior-src: url("../resources/Documentation-Button-brad.png");
-  --components-like-src: url("../resources/components-like-brad.png");
-  --micro-components-src: url("../resources/micro-components-brad.png");
-  --watches-src: url("../resources/watches-brad.png");
-  --recent-laptop-front-src: url("../resources/recent-laptop-front-brad.png");
+  --mockup-screens-src:  url("../resources/mockup-screens-grape.png");
+  --laptop-front-src:    url("../resources/laptop-front-grape.png");
+  --screen-behavior-src: url("../resources/Documentation-Button-grape.png");
+  --components-like-src: url("../resources/components-like-grape.png");
+  --micro-components-src: url("../resources/micro-components-grape.png");
+  --watches-src: url("../resources/watches-grape.png");
+  --recent-laptop-front-src: url("../resources/recent-laptop-front-grape.png");
   --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 
   --radius-xs:   2px;
@@ -164,4 +176,45 @@
   --radius-md:   6px;
   --radius-lg:   6px;
   --radius-pill: 6px;
+}
+[data-theme="draft"] {
+  color-scheme: light;
+  --bg-canvas:        var(--color-grey-100);
+  --bg-panel-from:    var(--color-grey-200);
+  --bg-panel-to:      var(--color-grey-100);
+  --bg-surface:       var(--color-white);
+  --text-primary:     var(--color-grey-900);
+  --text-secondary:   var(--color-grey-700);
+  --text-muted:       var(--color-grey-600);
+  --border-subtle:    rgba(0, 0, 0, 0.16);
+  --border-strong:    rgba(0, 0, 0, 0.32);
+  --surface-hover:    rgba(0, 0, 0, 0.08);
+  --chip-bg:          var(--color-white);
+  --chip-text:        var(--color-grey-900);
+  --accent-interactive: var(--color-drawably-ink);
+  --font-display:          var(--family-drawably);
+  --font-display-weight:   400;
+  --font-display-stretch:  100%;
+  --font-display-tracking: 0em;
+
+  --font-heading-weight:   400;
+  --font-heading-stretch:  100%;
+  --font-heading-tracking: 0em;
+  --font-body: var(--family-drawably);
+  --font-data: var(--family-geist-mono);
+  --photo-noise-blend: multiply;
+  --photo-noise-alpha: 0.12;
+  --photo-grayscale:   1;
+  --photo-src: url("../resources/luis-romero-draft.png");
+
+  --diagram-sitemap-src: url("../resources/diagram-sitemap-draft.png");
+  --diagram-flow-src:    url("../resources/diagram-flow-draft.png");
+  --mockup-screens-src:  url("../resources/mockup-screens-draft.png");
+  --laptop-front-src:    url("../resources/laptop-front-draft.png");
+  --screen-behavior-src: url("../resources/Documentation-Button-draft.png");
+  --components-like-src: url("../resources/components-like-draft.png");
+  --micro-components-src: url("../resources/micro-components-draft.png");
+  --watches-src: url("../resources/watches-draft.png");
+  --recent-laptop-front-src: url("../resources/recent-laptop-front-draft.png");
+  --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 }
