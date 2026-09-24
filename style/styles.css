@@ -375,6 +375,39 @@ body {
   background: linear-gradient(180deg, var(--bg-panel-from) 0%, var(--bg-panel-to) 100%);
   z-index: 1;
 }
+[data-theme="draft"] .about-photo__frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg-panel-to) url("../resources/bg-grid-draft.png") center top / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+}
+[data-theme="draft"] .about--mockup .about-media {
+  position: relative;
+}
+[data-theme="draft"] .about--mockup .about-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg-panel-to) url("../resources/bg-grid-draft.png") center top / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+}
+[data-theme="draft"] .about--diagrams .about-media {
+  position: relative;
+}
+[data-theme="draft"] .about--diagrams .about-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg-panel-to) url("../resources/bg-grid-draft.png") center top / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+}
 .about-photo__img-wrap {
   position: absolute;
   inset: 0;
@@ -419,6 +452,13 @@ body {
 }
 .about-diagram--sitemap { content: var(--diagram-sitemap-src); }
 .about-diagram--flow    { content: var(--diagram-flow-src); }
+[data-theme="draft"] .about-diagram--sitemap {
+  width: 60%;
+  margin-inline: auto;
+}
+[data-theme="draft"] .about-diagram--flow {
+  display: none;
+}
 
 .about-mockup {
   display: block;
@@ -502,6 +542,18 @@ body {
 }
 .about-device[data-scrolled] .about-device__hint {
   opacity: 0;
+}
+[data-theme="draft"] .about-device__frame {
+  display: none;
+}
+[data-theme="draft"] .about-device::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg-panel-to) url("../resources/bg-grid-draft.png") center top / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
 }
 .about-device.about-device--recent {
   --device-ratio: 716 / 448;
