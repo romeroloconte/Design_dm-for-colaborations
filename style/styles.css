@@ -15,11 +15,13 @@ body {
   transition: background-color 0.35s ease, color 0.35s ease;
 }
 [data-theme="draft"] body[data-page="index"],
-[data-theme="draft"] body[data-page="contact"] {
+[data-theme="draft"] body[data-page="contact"],
+[data-theme="draft"] body[data-page="confidential"] {
   position: relative;
 }
 [data-theme="draft"] body[data-page="index"]::before,
-[data-theme="draft"] body[data-page="contact"]::before {
+[data-theme="draft"] body[data-page="contact"]::before,
+[data-theme="draft"] body[data-page="confidential"]::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -458,6 +460,11 @@ body {
   margin-inline: auto;
 }
 [data-theme="draft"] .about-diagram--flow {
+  display: none;
+}
+
+[data-theme="draft"] .site-nav__link[href="who_i_am.html"],
+[data-theme="draft"] .site-nav__link[href="confidential_projects.html"] {
   display: none;
 }
 
@@ -1425,3 +1432,30 @@ body {
   display: inline-flex;
 }
 
+
+/* ============================================================
+   Draft theme — who_i_am · about--intro (photo box)
+   ------------------------------------------------------------
+   - Mata el marco gris (.about-photo__frame) y el ruido
+   - Añade la rejilla + fade detrás, igual que .about--diagrams
+   - Deja la foto en su posición actual (78% ancho, bottom center)
+   ============================================================ */
+[data-theme="draft"] .about--intro .about-photo {
+  position: relative;
+}
+[data-theme="draft"] .about--intro .about-photo__frame {
+  background: transparent;
+}
+[data-theme="draft"] .about--intro .about-photo__frame::before {
+  display: none;
+}
+[data-theme="draft"] .about--intro .about-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg-panel-to) url("../resources/bg-grid-draft.png") center top / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  pointer-events: none;
+}

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=clash-display@400,500,600,700&display=swap">
 
   <link rel="stylesheet" href="style/tokens.css?v=41">
-  <link rel="stylesheet" href="style/styles.css?v=112">
+  <link rel="stylesheet" href="style/styles.css?v=111">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drawably@0.4.2/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drawably@0.4.2/font/font.css">
   <script>
@@ -30,11 +30,12 @@
     })();
   </script>
 </head>
-<body data-page="index">
+<body data-page="contact">
 
   <a href="#main-content" class="skip-link">Skip to content</a>
 
   <nav class="site-nav">
+    <a href="index.html" class="site-nav__link site-nav__link--back"><span class="site-nav__arrow" aria-hidden="true">&#8592;</span>Back</a>
     <a href="who_i_am.html" class="site-nav__link site-nav__link--left">Who i am</a>
     <a href="confidential_projects.html" class="site-nav__link">Projects</a>
     <a href="contact.html" class="site-nav__link site-nav__link--right">Contact</a>
@@ -128,13 +129,8 @@
         <span class="draft-kit-card-wrap"><p>We don't just design screens — we build a system for handoff.</p></span>
       </div>
     </div>
-
     <div class="title__lines">
-      <h1 data-glitch>Romero Loconte</h1>
-      <h1 data-glitch><span class="draft-hero-highlight-wrap">UX</span> & <span class="draft-hero-underline-wrap">Visual Designer</span></h1>
-      <h1 data-glitch>Design systems</h1>
-      <h1 data-glitch>from Valencia, Spain</h1>
-      <h1 data-glitch><span class="draft-hero-cloud-wrap">DM</span> <span class="draft-hero-for">for</span><span class="draft-hero-arrow-wrap" aria-hidden="true"><span class="draft-hero-arrow-from"></span><span class="draft-hero-arrow-to"></span></span> collabs</h1>
+      <h1 data-glitch>Feel <span class="draft-hero-underline-wrap">free</span><br><span class="draft-hero-highlight-wrap">to</span> reach out.</h1>
     </div>
 
     <div class="social-links">
@@ -156,15 +152,14 @@
         </svg>
       </a>
     </div>
-
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/SplitText.min.js"></script>
   <script src="js/gsap.js" defer></script>
   <script src="js/theme.js" defer></script>
-  <script src="js/draft.js?v=30" defer></script>
-  <script src="js/draft-draw.js?v=11" defer></script>
+  <script src="js/draft.js?v=31" defer></script>
+  <script src="js/draft-draw.js?v=5" defer></script>
   <script src="js/draft-drag.js?v=2" defer></script>
   <script src="js/nav.js" defer></script>
   <script src="js/favicon-animate.js" defer></script>
