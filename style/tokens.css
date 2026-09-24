@@ -212,7 +212,7 @@
   --photo-noise-blend: multiply;
   --photo-noise-alpha: 0.12;
   --photo-grayscale:   1;
-  --photo-src: url("../resources/luis-romero-draft.png");
+  --photo-src: url("../resources/luis-romero-light.png");
 
   --diagram-sitemap-src: url("../resources/diagram-scale-draft.png");
   --diagram-flow-src:    url("../resources/diagram-flow-draft.png");

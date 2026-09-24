@@ -385,21 +385,6 @@ body {
   background: linear-gradient(180deg, var(--bg-panel-from) 0%, var(--bg-panel-to) 100%);
   z-index: 1;
 }
-[data-theme="draft"] .about-photo__frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--bg-panel-to) url("../resources/bg-grid-draft.png") center top / cover no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
-}
-@media (max-width: 900px) {
-  [data-theme="draft"] .about-photo__frame::after {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-}
 [data-theme="draft"] .about--mockup .about-media {
   position: relative;
 }
