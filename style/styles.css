@@ -259,6 +259,10 @@ body {
 .theme-switcher__menu[hidden] {
   display: none;
 }
+.theme-switcher__menu-separator {
+  border-top: 1px solid var(--border-subtle);
+  margin: 4px 12px;
+}
 .theme-switcher__option {
   display: flex;
   align-items: center;

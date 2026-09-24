@@ -4,7 +4,7 @@
     { id: "dark",  label: "Dark" },
     { id: "light", label: "Light" },
     { id: "grape", label: "Grape" },
-    { id: "draft", label: "Draft" }
+    { id: "draft", label: "Draft", separator: true }
   ];
   var DEFAULT_THEME = "dark";
   var STORAGE_KEY = "rl-theme";
@@ -62,6 +62,12 @@
     menu.setAttribute("role", "menu");
     menu.hidden = true;
     var options = THEMES.map(function (theme) {
+      if (theme.separator) {
+        var sep = document.createElement("li");
+        sep.className = "theme-switcher__menu-separator";
+        sep.setAttribute("role", "separator");
+        menu.appendChild(sep);
+      }
       var li = document.createElement("li");
       var btn = document.createElement("button");
       btn.type = "button";
