@@ -84,6 +84,12 @@ body {
   font-size: 5.5vw;
   width: 80%;
 }
+@media (max-width: 768px) {
+  [data-theme="draft"] .title h1 {
+    font-size: 7vw;
+    width: 78%;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   [data-theme="draft"] .boil-char {
     animation: none;
@@ -385,8 +391,6 @@ body {
   inset: 0;
   z-index: -1;
   background: var(--bg-panel-to) url("../resources/bg-grid-draft.png") center top / cover no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
 }
 [data-theme="draft"] .about--mockup .about-media {
   position: relative;
