@@ -1125,9 +1125,17 @@ body {
   font-family: var(--font-body);
 }
 [data-theme="draft"] .project-chip.drawably-card {
-  padding: 4px 10px;
-  font-family: var(--font-data);
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  border: none;
   background: transparent;
+}
+[data-theme="draft"] .project-chip.drawably-card:hover {
+  color: var(--accent-interactive);
 }
 [data-theme="draft"] .skills-tag.drawably-card {
   padding: 6px 14px;
