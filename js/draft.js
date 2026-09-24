@@ -142,99 +142,99 @@
   function applyDraftKit(drawably) {
     if (!document.querySelector(".draft-kit")) return;
 
-    document.querySelectorAll(".draft-kit-btn").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    var jobs = [];
+
+    collect(document, ".draft-kit-btn", jobs, function (el) {
       attachButton(drawably, el, draftKitButtonOpts(el));
     });
 
-    document.querySelectorAll(".draft-kit-radio-wrap").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    collect(document, ".draft-kit-radio-wrap", jobs, function (el) {
       attachRadio(drawably, el);
     });
 
-    document.querySelectorAll(".draft-kit-checkbox-wrap").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    collect(document, ".draft-kit-checkbox-wrap", jobs, function (el) {
       attachCheckbox(drawably, el);
     });
 
-    document.querySelectorAll(".draft-kit-toggle-wrap").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    collect(document, ".draft-kit-toggle-wrap", jobs, function (el) {
       attachToggle(drawably, el);
     });
 
-    document.querySelectorAll(".draft-kit-input-wrap").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    collect(document, ".draft-kit-input-wrap", jobs, function (el) {
       attachInput(drawably, el);
     });
 
-    document.querySelectorAll(".draft-kit-textarea-wrap").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    collect(document, ".draft-kit-textarea-wrap", jobs, function (el) {
       attachTextarea(drawably, el);
     });
 
-    document.querySelectorAll(".draft-kit-select-wrap").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    collect(document, ".draft-kit-select-wrap", jobs, function (el) {
       attachSelect(drawably, el);
     });
 
-    document.querySelectorAll(".draft-kit-underline").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    collect(document, ".draft-kit-underline", jobs, function (el) {
       withClasses(el, ["drawably-divider"]);
       sketches.push(drawably.drawablyDivider(el, { width: 1 }));
     });
 
-    document.querySelectorAll(".draft-kit-card-wrap").forEach(function (el) {
-      if (!attachable(el)) return;
-      el.dataset.drawablyAttached = "true";
+    collect(document, ".draft-kit-card-wrap", jobs, function (el) {
       attachCard(drawably, el);
+    });
+
+    flush(jobs);
+  }
+
+  function collect(root, selector, jobs, attach) {
+    Array.prototype.forEach.call(root.querySelectorAll(selector), function (el) {
+      if (attachable(el)) jobs.push([el, attach]);
+    });
+    if (root !== document && root.matches && root.matches(selector) && attachable(root)) {
+      jobs.push([root, attach]);
+    }
+  }
+
+  function flush(jobs) {
+    jobs.forEach(function (job) {
+      job[0].dataset.drawablyAttached = "true";
+      job[1](job[0]);
     });
   }
 
-  function apply() {
+  function apply(scope) {
     Promise.all([loadModule(), document.fonts.ready]).then(function (results) {
       var drawably = results[0];
       if (!isDraft()) return;
 
-      document.querySelectorAll(".vault__submit, .theme-switcher__trigger")
-        .forEach(function (el) {
-          if (!attachable(el)) return;
-          el.dataset.drawablyAttached = "true";
-          attachButton(drawably, el);
-        });
+      var root = scope && scope.querySelectorAll ? scope : document;
+      var jobs = [];
+      var clusters = [];
 
-      document.querySelectorAll(".project-link")
-        .forEach(function (el) {
-          if (!attachable(el)) return;
-          el.dataset.drawablyAttached = "true";
-          attachCard(drawably, el);
-        });
+      collect(root, ".vault__submit, .theme-switcher__trigger", jobs, function (el) {
+        attachButton(drawably, el);
+      });
 
-      document.querySelectorAll(".project-chip")
-        .forEach(function (el) {
-          if (!attachable(el)) return;
-          el.dataset.drawablyAttached = "true";
-          attachCard(drawably, el, { stroke: "var(--text-primary)", width: 1, paper: "transparent" });
-        });
+      collect(root, ".project-link", jobs, function (el) {
+        attachCard(drawably, el);
+      });
 
-      document.querySelectorAll(".skills-tag")
-        .forEach(function (el) {
-          if (!attachable(el)) return;
-          el.dataset.drawablyAttached = "true";
-          attachCard(drawably, el, { stroke: "var(--text-primary)", width: 1 });
-        });
+      collect(root, ".project-chip", jobs, function (el) {
+        attachCard(drawably, el, { stroke: "var(--text-primary)", width: 1, paper: "transparent" });
+      });
 
-      document.querySelectorAll(".skills-cluster").forEach(function (cluster) {
+      collect(root, ".skills-tag", jobs, function (el) {
+        attachCard(drawably, el, { stroke: "var(--text-primary)", width: 1 });
+      });
+
+      Array.prototype.forEach.call(root.querySelectorAll(".skills-cluster"), function (cluster) {
         if (isFirstCluster(cluster)) return;
         if (cluster.previousElementSibling && cluster.previousElementSibling.classList.contains("draft-divider")) return;
         if (cluster.offsetWidth === 0) return;
+        clusters.push(cluster);
+      });
+
+      flush(jobs);
+
+      clusters.forEach(function (cluster) {
         var divider = document.createElement("hr");
         divider.className = "draft-divider";
         cluster.parentNode.insertBefore(divider, cluster);
@@ -336,8 +336,8 @@
     }
   });
 
-  document.addEventListener("contentreveal", function () {
-    if (isDraft()) apply();
+  document.addEventListener("contentreveal", function (event) {
+    if (isDraft()) apply(event.detail && event.detail.target);
   });
 
   document.addEventListener("glitchrebuild", function () {
