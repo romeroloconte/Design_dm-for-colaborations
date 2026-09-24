@@ -221,7 +221,7 @@
         .forEach(function (el) {
           if (!attachable(el)) return;
           el.dataset.drawablyAttached = "true";
-          attachCard(drawably, el, { stroke: "var(--text-primary)", width: 1 });
+          attachCard(drawably, el, { stroke: "var(--text-primary)", width: 1, paper: "transparent" });
         });
 
       document.querySelectorAll(".skills-tag")

@@ -957,6 +957,23 @@ body {
   letter-spacing: 0.02rem;
   line-height: 1.4;
   color: var(--chip-text);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+[data-theme="dark"] .project-chip,
+[data-theme="light"] .project-chip,
+[data-theme="grape"] .project-chip {
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+[data-theme="dark"] .project-chip:hover,
+[data-theme="light"] .project-chip:hover,
+[data-theme="grape"] .project-chip:hover {
+  color: var(--accent-interactive);
+  border-color: var(--border-strong);
 }
 .about-text .project-role {
   margin: 0;

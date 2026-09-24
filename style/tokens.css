@@ -56,7 +56,7 @@
   --surface-hover:    rgba(255, 255, 255, 0.16);
   --chip-bg:          transparent;
   --chip-text:        var(--color-white);
-  --chip-border:      var(--color-white);
+  --chip-border:      var(--border-subtle);
   --accent-interactive: var(--color-violet);
   --font-display:          var(--family-inter);
   --font-display-weight:   500;
@@ -102,7 +102,7 @@
   --surface-hover:    rgba(0, 0, 0, 0.16);
   --chip-bg:          transparent;
   --chip-text:        var(--color-black);
-  --chip-border:      var(--color-black);
+  --chip-border:      var(--border-subtle);
   --accent-interactive: var(--color-violet-deep);
   --font-display:          var(--family-clash);
   --font-display-weight:   600;
@@ -148,7 +148,7 @@
 
   --chip-bg:          transparent;
   --chip-text:        var(--color-grape-ink);
-  --chip-border:      var(--color-grape-ink);
+  --chip-border:      var(--border-subtle);
   --accent-interactive: var(--color-white);
   --font-display:          var(--family-anybody);
   --font-display-weight:   700;
