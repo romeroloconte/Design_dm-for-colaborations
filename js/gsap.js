@@ -87,6 +87,7 @@ function build() {
             line.addEventListener("mouseenter", () => glitchLine(line, instance.chars));
         });
     });
+    document.dispatchEvent(new CustomEvent("glitchrebuild"));
 }
 function rebuildWhenFontsReady() {
     document.fonts.ready.then(build);

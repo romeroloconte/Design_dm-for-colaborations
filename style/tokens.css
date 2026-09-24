@@ -54,8 +54,9 @@
   --border-subtle:    rgba(255, 255, 255, 0.16);
   --border-strong:    rgba(255, 255, 255, 0.32);
   --surface-hover:    rgba(255, 255, 255, 0.16);
-  --chip-bg:          var(--color-white);
-  --chip-text:        var(--color-black);
+  --chip-bg:          transparent;
+  --chip-text:        var(--color-white);
+  --chip-border:      var(--color-white);
   --accent-interactive: var(--color-violet);
   --font-display:          var(--family-inter);
   --font-display-weight:   500;
@@ -99,8 +100,9 @@
   --border-subtle:    rgba(0, 0, 0, 0.16);
   --border-strong:    rgba(0, 0, 0, 0.32);
   --surface-hover:    rgba(0, 0, 0, 0.16);
-  --chip-bg:          var(--color-grey-200);
+  --chip-bg:          transparent;
   --chip-text:        var(--color-black);
+  --chip-border:      var(--color-black);
   --accent-interactive: var(--color-violet-deep);
   --font-display:          var(--family-clash);
   --font-display-weight:   600;
@@ -144,8 +146,9 @@
   --border-strong:    rgba(26, 14, 36, 0.55);
   --surface-hover:    rgba(26, 14, 36, 0.35);
 
-  --chip-bg:          var(--color-grape-ink);
-  --chip-text:        var(--color-white);
+  --chip-bg:          transparent;
+  --chip-text:        var(--color-grape-ink);
+  --chip-border:      var(--color-grape-ink);
   --accent-interactive: var(--color-white);
   --font-display:          var(--family-anybody);
   --font-display-weight:   700;

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=clash-display@400,500,600,700&display=swap">
 
   <link rel="stylesheet" href="style/tokens.css?v=40">
-  <link rel="stylesheet" href="style/styles.css?v=51">
+  <link rel="stylesheet" href="style/styles.css?v=79">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drawably@0.4.2/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drawably@0.4.2/font/font.css">
   <script>
@@ -30,7 +30,7 @@
     })();
   </script>
 </head>
-<body>
+<body data-page="contact">
 
   <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -43,8 +43,94 @@
   </nav>
 
   <section class="title" id="main-content" tabindex="-1">
+
+    <div class="draft-kit draft-kit--left" aria-hidden="true">
+      <div class="draft-kit__slot draft-kit__slot--hint">
+        <div class="draft-kit__hint">
+          <svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 6 L24 24 M24 24 L24 14 M24 24 L14 24" />
+          </svg>
+          <span>hover to re-sketch</span>
+        </div>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--done">
+        <button type="button" class="draft-kit-btn draft-kit-btn--solid" tabindex="-1">Done</button>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--cancel">
+        <button type="button" class="draft-kit-btn" tabindex="-1">Cancel</button>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--saved1">
+        <button type="button" class="draft-kit-btn draft-kit-btn--scribble" tabindex="-1">Saved</button>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--wait">
+        <button type="button" class="draft-kit-btn" tabindex="-1">Wait</button>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--pen">
+        <label class="draft-kit-option">
+          <span class="draft-kit-radio-wrap"><input type="radio" name="draft-kit-tool" tabindex="-1" checked></span>
+          Pen
+        </label>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--pencil">
+        <label class="draft-kit-option">
+          <span class="draft-kit-radio-wrap"><input type="radio" name="draft-kit-tool" tabindex="-1"></span>
+          Pencil
+        </label>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--ship">
+        <label class="draft-kit-option">
+          <span class="draft-kit-checkbox-wrap"><input type="checkbox" tabindex="-1" checked></span>
+          Ship it
+        </label>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--name">
+        <span class="draft-kit-input-wrap"><input type="text" placeholder="your name" tabindex="-1"></span>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--checklist">
+        <ul class="draft-kit-checklist">
+          <li>systems, not screens</li>
+          <li>documented always</li>
+          <li>a11y non-negotiable</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="draft-kit draft-kit--right" aria-hidden="true">
+      <div class="draft-kit__slot draft-kit__slot--retry">
+        <button type="button" class="draft-kit-btn draft-kit-btn--danger" tabindex="-1">Retry</button>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--saved2">
+        <button type="button" class="draft-kit-btn draft-kit-btn--success" tabindex="-1">Saved</button>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--delete">
+        <button type="button" class="draft-kit-btn draft-kit-btn--danger" tabindex="-1">Delete</button>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--toggle">
+        <span class="draft-kit-toggle-wrap"><input type="checkbox" tabindex="-1" checked></span>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--select">
+        <span class="draft-kit-select-wrap">
+          <select tabindex="-1">
+            <option>Figma</option>
+            <option>Storybook</option>
+            <option>Design</option>
+            <option>Dev</option>
+            <option>Draft</option>
+          </select>
+        </span>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--textarea">
+        <span class="draft-kit-textarea-wrap"><textarea rows="2" placeholder="a note" tabindex="-1"></textarea></span>
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--underline">
+        <hr class="draft-kit-underline">
+      </div>
+      <div class="draft-kit__slot draft-kit__slot--note">
+        <span class="draft-kit-card-wrap"><p>We don't just design screens — we build a system for handoff.</p></span>
+      </div>
+    </div>
     <div class="title__lines">
-      <h1 data-glitch>Feel free to reach out.</h1>
+      <h1 data-glitch>Feel free<br>to reach out.</h1>
     </div>
 
     <div class="social-links">
@@ -72,7 +158,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/SplitText.min.js"></script>
   <script src="js/gsap.js" defer></script>
   <script src="js/theme.js" defer></script>
-  <script src="js/draft.js?v=9" defer></script>
+  <script src="js/draft.js?v=18" defer></script>
   <script src="js/nav.js" defer></script>
   <script src="js/favicon-animate.js" defer></script>
 
