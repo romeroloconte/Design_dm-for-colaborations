@@ -7,7 +7,6 @@
     { id: "draft", label: "Draft", separator: true }
   ];
   var DEFAULT_THEME = "dark";
-  var DRAFT_BLOCKED_PAGES = ["who_i_am.html", "confidential_projects.html"];
   var STORAGE_KEY = "rl-theme";
   function isValid(id) {
     return THEMES.some(function (t) { return t.id === id; });
@@ -82,11 +81,6 @@
       name.textContent = theme.label;
       btn.append(dot, name);
       btn.addEventListener("click", function () {
-        if (theme.id === "draft" && DRAFT_BLOCKED_PAGES.indexOf(location.pathname.split("/").pop()) !== -1) {
-          persist("draft");
-          location.href = "index.html";
-          return;
-        }
         apply(theme.id);
         sync();
         close();

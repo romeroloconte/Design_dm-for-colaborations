@@ -82,11 +82,6 @@
       name.textContent = theme.label;
       btn.append(dot, name);
       btn.addEventListener("click", function () {
-        if (theme.id === "draft" && DRAFT_BLOCKED_PAGES.indexOf(location.pathname.split("/").pop()) !== -1) {
-          persist("draft");
-          location.href = "index.html";
-          return;
-        }
         apply(theme.id);
         sync();
         close();
