@@ -4,3 +4,6 @@ resources/Fonts/
 vault.src/
 VAULT-PORT-PROMPT.md
 *.tmp
+*.bak
+*.bak[0-9]*
+.fuse_hidden*
