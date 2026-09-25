@@ -54,7 +54,10 @@ Open to collaborations and design system work.
 | --- | --- |
 | `index.html` | Hero — name, role and the animated text lines |
 | `who_i_am.html` | Bio, portrait and background |
-| `recent_projects.html` | Case studies — *coming soon* |
+| `how_i_built_this.html` | Storytelling of how the site itself was built |
+| `confidential_projects.html` | Password-gated vault with real project case studies |
+| `contact.html` | Contact page |
+| `recent_projects.html` | Public case-study chain — kept in the repo but unlinked from the nav; public work now lives on Figma/Vercel instead |
 
 ### The text effect
 
@@ -66,27 +69,56 @@ Every `<h1>` is split into lines and characters with GSAP `SplitText`. On hover 
 
 The stagger is driven by distance from the line's midpoint, so the glitch spreads outwards rather than left to right.
 
+### Themes
+
+Four themes — Dark (default), Light, Grape and Draft — driven by primitive + semantic design tokens in `style/tokens.css`, switchable from a dropdown in the nav. Draft is a distinct sketched-UI skin built on [drawably](https://drawably.dev/) via CDN, with hand-drawn strokes on buttons, links, chips and the theme selector itself.
+
+### The vault
+
+`confidential_projects.html` holds real case studies behind a password gate. Content is authored as plain JSON (`vault.src/`, gitignored) and compiled offline into an encrypted blob (`resources/vault.json`) by `tools/build-vault.mjs` — PBKDF2-SHA256 (310k iterations) + AES-GCM 256. `js/vault.js` decrypts client-side and renders the projects through the same module chain as the rest of the site. `vault.src.example/content.json` is the template kept in the repo; the real source and password never are.
+
 ### Stack
 
 - Plain HTML and CSS — no framework, no bundler
-- [GSAP 3](https://gsap.com/) via CDN, with the `SplitText` plugin (`ScrollTrigger` is registered but not yet in use)
+- [GSAP 3](https://gsap.com/) via CDN, with the `SplitText` plugin
+- [drawably](https://drawably.dev/) via CDN, for the Draft theme only
 - Inter, loaded from Google Fonts
 
 ### Structure
 
 ```
-index.html              hero / entry point
-who_i_am.html           bio
-recent_projects.html    case studies (WIP)
-style/styles.css        all styles
-js/gsap.js              text effect logic
-resources/              images
-.github/workflows/      GitHub Pages deployment
+index.html                    hero / entry point
+who_i_am.html                 bio
+how_i_built_this.html         build storytelling
+confidential_projects.html    password-gated vault
+contact.html                  contact page
+recent_projects.html          public case studies (unlinked)
+story.html                    standalone draft, not yet linked
+
+style/tokens.css              design tokens (themes)
+style/styles.css              all styles
+
+js/gsap.js                    text glitch effect
+js/theme.js                   theme switcher
+js/modules.js                 reveal-chain logic (who_i_am, vault)
+js/vault.js                   vault decryption + render
+js/nav.js                     nav behaviour
+js/device.js                  laptop-mockup scroll device
+js/favicon-animate.js         animated favicon
+js/draft.js, draft-draw.js, draft-drag.js   Draft theme sketch rendering
+
+tools/build-vault.mjs         encrypts vault.src/content.json → resources/vault.json
+vault.src.example/            template for the vault's source JSON
+resources/                    images, per theme where applicable
+
+.github/workflows/            GitHub Pages deployment
 ```
 
 ### Running it locally
 
-Static site — clone the repository and open `index.html` in a browser. No install, no build, no server required.
+Static site — clone the repository and open `index.html` in a browser. No install, no build, no server required for most pages.
+
+The theme switcher needs a real origin (`http://`, not `file://`) to persist across pages — serve the folder locally (e.g. `python3 -m http.server`) to test theme switching.
 
 ### Deployment
 

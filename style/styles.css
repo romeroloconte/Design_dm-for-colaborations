@@ -474,18 +474,6 @@ body {
   height: auto;
   content: var(--mockup-screens-src);
 }
-.about-components-like {
-  display: block;
-  width: 100%;
-  height: auto;
-  content: var(--components-like-src);
-}
-.about-micro-components {
-  display: block;
-  width: 100%;
-  height: auto;
-  content: var(--micro-components-src);
-}
 .about-watches {
   display: block;
   width: 86%;

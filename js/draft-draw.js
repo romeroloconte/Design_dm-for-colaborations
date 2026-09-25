@@ -1,6 +1,9 @@
 (function () {
   "use strict";
 
+  console.log("[draft-draw] script version 25 running");
+  console.log("[draft-draw] script version 25 running");
+
   var MEDIA_QUERY = "(min-width: 800px)";
   var STYLE_ID = "draft-draw-style";
   var UI_ID = "draft-draw-ui";
@@ -61,7 +64,11 @@
       "#" + UI_ID + " .dd-tool{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--text-primary,#141414);background:var(--bg-surface,#ffffff);color:var(--text-primary,#141414);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}" +
       "#" + UI_ID + " .dd-tool.is-on{background:var(--text-primary,#141414);color:var(--bg-surface,#ffffff);}" +
       "#" + UI_ID + " .dd-tool svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}" +
-      "#" + UI_ID + " .dd-sep{width:100%;height:1px;background:var(--text-primary,#141414);opacity:.15;margin:2px 0;}";
+      "#" + UI_ID + " .dd-sep{width:100%;height:1px;background:var(--text-primary,#141414);opacity:.15;margin:2px 0;}" +
+      "#" + UI_ID + " .dd-hint{position:fixed;right:43px;bottom:76px;text-align:right;font-size:11px;color:var(--text-muted,#6b7280);white-space:nowrap;pointer-events:none;z-index:10000;}" +
+      "#" + UI_ID + ".is-open .dd-hint{display:none;}" +
+      "#" + UI_ID + " .dd-hint span{display:block;}" +
+      "#" + UI_ID + " .dd-hint svg{display:block;width:18px;height:18px;margin-top:2px;margin-right:45px;margin-left:auto;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}";
     document.head.appendChild(s);
   }
 
@@ -231,6 +238,13 @@
       refreshUI();
     });
     uiRoot.appendChild(toggle);
+
+    var hint = document.createElement("div");
+    hint.className = "dd-hint";
+    hint.id = "dd-hint";
+    hint.innerHTML = "<span>if you want to draw</span>" +
+      "<svg viewBox=\"0 0 32 32\"><path d=\"M6 6 L24 24 M24 24 L24 14 M24 24 L14 24\" /></svg>";
+    uiRoot.appendChild(hint);
 
     document.body.appendChild(uiRoot);
   }

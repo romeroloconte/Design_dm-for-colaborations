@@ -79,11 +79,8 @@
   --mockup-screens-src:  url("../resources/mockup-screens-dark.png");
   --laptop-front-src:    url("../resources/laptop-front-dark.png");
   --screen-behavior-src: url("../resources/Documentation-Button-dark.png");
-  --components-like-src: url("../resources/components-like-dark.png");
-  --micro-components-src: url("../resources/micro-components-dark.png");
   --watches-src: url("../resources/watches-dark.png");
   --recent-laptop-front-src: url("../resources/recent-laptop-front-dark.png");
-  --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 }
 [data-theme="dark"] {
   --radius-sm: 999px;
@@ -125,11 +122,8 @@
   --mockup-screens-src:  url("../resources/mockup-screens-light.png");
   --laptop-front-src:    url("../resources/laptop-front-light.png");
   --screen-behavior-src: url("../resources/Documentation-Button-light.png");
-  --components-like-src: url("../resources/components-like-light.png");
-  --micro-components-src: url("../resources/micro-components-light.png");
   --watches-src: url("../resources/watches-light.png");
   --recent-laptop-front-src: url("../resources/recent-laptop-front-light.png");
-  --recent-screen-behavior-src: url("../resources/micro-animations-.png");
   --radius-sm: 999px;
 }
 [data-theme="grape"] {
@@ -172,11 +166,8 @@
   --mockup-screens-src:  url("../resources/mockup-screens-grape.png");
   --laptop-front-src:    url("../resources/laptop-front-grape.png");
   --screen-behavior-src: url("../resources/Documentation-Button-grape.png");
-  --components-like-src: url("../resources/components-like-grape.png");
-  --micro-components-src: url("../resources/micro-components-grape.png");
   --watches-src: url("../resources/watches-grape.png");
   --recent-laptop-front-src: url("../resources/recent-laptop-front-grape.png");
-  --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 
   --radius-xs:   2px;
   --radius-sm:   6px;
@@ -219,9 +210,6 @@
   --mockup-screens-src:  url("../resources/mockup-screens-draft.png");
   --laptop-front-src:    url("../resources/laptop-front-draft.png");
   --screen-behavior-src: url("../resources/Documentation-Button-draft.png");
-  --components-like-src: url("../resources/components-like-draft.png");
-  --micro-components-src: url("../resources/micro-components-draft.png");
   --watches-src: url("../resources/watches-draft.png");
   --recent-laptop-front-src: url("../resources/recent-laptop-front-draft.png");
-  --recent-screen-behavior-src: url("../resources/micro-animations-.png");
 }
