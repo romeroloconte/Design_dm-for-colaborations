@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  console.log("[draft-draw] script version 28 running");
+  console.log("[draft-draw] script version 29 running");
 
   var STYLE_ID = "draft-draw-style";
   var UI_ID = "draft-draw-ui";
@@ -29,6 +29,7 @@
   var isDrawingStroke = false;
   var dpr = window.devicePixelRatio || 1;
   var cursorEl = null;
+  var resizeObserver = null;
 
   function isDraft() {
     return document.documentElement.getAttribute("data-theme") === "draft";
@@ -44,7 +45,7 @@
     var s = document.createElement("style");
     s.id = STYLE_ID;
     s.textContent =
-      "#" + CANVAS_ID + "{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9998;}" +
+      "#" + CANVAS_ID + "{position:absolute;top:0;left:0;pointer-events:none;z-index:9998;}" +
       "#" + CANVAS_ID + ".is-active{pointer-events:auto;cursor:none;touch-action:none;}" +
       "#" + CURSOR_ID + "{position:fixed;top:0;left:0;width:28px;height:28px;pointer-events:none;z-index:10001;display:none;}" +
       "#" + CURSOR_ID + " svg{width:100%;height:100%;overflow:visible;}" +
@@ -82,10 +83,17 @@
     resizeCanvas();
   }
 
+  function docHeight() {
+    var b = document.body;
+    var e = document.documentElement;
+    return Math.max(b.scrollHeight, b.offsetHeight, e.scrollHeight, e.offsetHeight, e.clientHeight);
+  }
+
   function resizeCanvas() {
     if (!canvas) return;
-    var w = window.innerWidth;
-    var h = window.innerHeight;
+    var w = document.documentElement.clientWidth;
+    var h = docHeight();
+    if (canvas.width === w * dpr && canvas.height === h * dpr) return;
     var snapshot = null;
     if (canvas.width > 0 && canvas.height > 0) {
       snapshot = document.createElement("canvas");
@@ -103,7 +111,7 @@
     ctx.lineJoin = "round";
     if (snapshot) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.drawImage(snapshot, 0, 0, canvas.width, canvas.height);
+      ctx.drawImage(snapshot, 0, 0, snapshot.width, snapshot.height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
       ctx.lineCap = "round";
@@ -356,6 +364,10 @@
     canvas.addEventListener("pointermove", onCursorMove);
     canvas.addEventListener("pointerenter", onCursorMove);
     window.addEventListener("resize", resizeCanvas);
+    if ("ResizeObserver" in window) {
+      resizeObserver = new ResizeObserver(function () { resizeCanvas(); });
+      resizeObserver.observe(document.body);
+    }
   }
 
   function unmount() {
@@ -381,6 +393,10 @@
       uiRoot = null;
     }
     window.removeEventListener("resize", resizeCanvas);
+    if (resizeObserver) {
+      resizeObserver.disconnect();
+      resizeObserver = null;
+    }
     toolActive = false;
     eraserMode = false;
     isDrawingStroke = false;
