@@ -1501,3 +1501,10 @@ body {
   mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
   pointer-events: none;
 }
+[data-theme="draft"] .site-nav {
+  z-index: 10002;
+}
+[data-theme="draft"] .social-links--footer {
+  position: relative;
+  z-index: 10002;
+}

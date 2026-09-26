@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  console.log("[draft-draw] script version 27 running");
+  console.log("[draft-draw] script version 28 running");
 
   var STYLE_ID = "draft-draw-style";
   var UI_ID = "draft-draw-ui";
@@ -32,6 +32,11 @@
 
   function isDraft() {
     return document.documentElement.getAttribute("data-theme") === "draft";
+  }
+
+  function getBgCanvasColor() {
+    var v = getComputedStyle(document.documentElement).getPropertyValue("--bg-canvas");
+    return v.trim() || "#ffffff";
   }
 
   function injectStyle() {
@@ -283,8 +288,8 @@
   function beginStroke(x, y) {
     points = [{ x: x, y: y }];
     isDrawingStroke = true;
-    ctx.globalCompositeOperation = eraserMode ? "destination-out" : "source-over";
-    ctx.strokeStyle = eraserMode ? "rgba(0,0,0,1)" : currentColor;
+    ctx.globalCompositeOperation = "source-over";
+    ctx.strokeStyle = eraserMode ? getBgCanvasColor() : currentColor;
     ctx.lineWidth = eraserMode ? Math.max(currentWidth * 3, 12) : currentWidth;
     ctx.beginPath();
     ctx.moveTo(x, y);
