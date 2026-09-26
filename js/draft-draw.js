@@ -46,7 +46,7 @@
   var uiRoot = null;
   var points = [];
   var isDrawingStroke = false;
-  var dpr = window.devicePixelRatio || 1;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var cursorEl = null;
   var resizeObserver = null;
 
@@ -111,13 +111,18 @@
   }
 
   function docHeight() {
+    var prev = canvas ? canvas.style.height : "";
+    if (canvas) canvas.style.height = "0px";
     var b = document.body;
     var e = document.documentElement;
-    return Math.max(b.scrollHeight, b.offsetHeight, e.scrollHeight, e.offsetHeight, e.clientHeight);
+    var h = Math.max(b.scrollHeight, b.offsetHeight, e.scrollHeight, e.offsetHeight, e.clientHeight);
+    if (canvas) canvas.style.height = prev;
+    return h;
   }
 
   function resizeCanvas() {
     if (!canvas) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
     var w = document.documentElement.clientWidth;
     var h = docHeight();
     if (canvas.width === w * dpr && canvas.height === h * dpr) return;

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=clash-display@400,500,600,700&display=swap">
 
   <link rel="stylesheet" href="style/tokens.css?v=41">
-  <link rel="stylesheet" href="style/styles.css?v=114">
+  <link rel="stylesheet" href="style/styles.css?v=112">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drawably@0.4.2/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drawably@0.4.2/font/font.css">
   <script>
@@ -81,7 +81,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 11vh;
+      gap: 10vh;
     }
     .story-step {
       position: relative;
@@ -123,6 +123,53 @@
     .story-final a:hover {
       color: var(--accent-interactive);
     }
+    .story-stack {
+      padding-top: 16vh;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .story-stack .about-heading {
+      margin: 0 0 24px;
+    }
+    .stack-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .stack-item {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 2.4;
+    }
+    .stack-item .skills-tag {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 2px 6px;
+    }
+    .stack-item__plus {
+      display: inline;
+      margin: 0 4px;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+    }
+    .stack-item__note {
+      display: inline;
+      margin-left: 6px;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+    }
+    .stack-item__desc {
+      display: inline;
+      margin-left: 8px;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text-secondary);
+    }
     @media (max-width: 640px) {
       .story {
         gap: 12vh;
@@ -136,6 +183,9 @@
       .story-step__index {
         min-width: 24px;
       }
+      .story-stack {
+        padding-top: 12vh;
+      }
     }
   </style>
 </head>
@@ -145,20 +195,11 @@
 
   <nav class="site-nav">
     <a href="index.html" class="site-nav__link site-nav__link--back"><span class="site-nav__arrow" aria-hidden="true">&#8592;</span>Back</a>
-    <div class="site-nav__links" id="site-nav-links">
-      <a href="who_i_am.html" class="site-nav__link site-nav__link--left">Who i am</a>
-      <a href="how_i_built_this.html" class="site-nav__link" aria-current="page">How i built this</a>
-      <a href="confidential_projects.html" class="site-nav__link">Projects</a>
-      <a href="contact.html" class="site-nav__link site-nav__link--right">Contact</a>
-    </div>
+    <a href="who_i_am.html" class="site-nav__link site-nav__link--left">Who i am</a>
+    <a href="how_i_built_this.html" class="site-nav__link">How i built this</a>
+    <a href="confidential_projects.html" class="site-nav__link">Projects</a>
+    <a href="contact.html" class="site-nav__link site-nav__link--right">Contact</a>
     <div data-theme-switcher hidden></div>
-    <button type="button" class="site-nav__toggle" aria-expanded="false" aria-controls="site-nav-links" aria-label="Menu">
-      <svg class="site-nav__toggle-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <path class="site-nav__toggle-bar site-nav__toggle-bar--top" d="M2 4h12"/>
-        <path class="site-nav__toggle-bar site-nav__toggle-bar--mid" d="M2 8h12"/>
-        <path class="site-nav__toggle-bar site-nav__toggle-bar--bottom" d="M2 12h12"/>
-      </svg>
-    </button>
   </nav>
 
   <main class="story" id="story-main" tabindex="-1">
@@ -274,6 +315,27 @@
 
     </section>
 
+    <section class="story-stack">
+      <h3 class="about-heading" data-glitch>Built with.</h3>
+      <ul class="stack-list">
+        <li class="stack-item">
+          <span class="skills-tag">HTML</span> <span class="stack-item__plus" aria-hidden="true">+</span> <span class="skills-tag">CSS</span> <span class="stack-item__plus" aria-hidden="true">+</span> <span class="skills-tag">JS</span> <span class="stack-item__desc">— no framework, no build step, everything served as static files</span>
+        </li>
+        <li class="stack-item">
+          <span class="skills-tag">GSAP</span> <span class="stack-item__plus" aria-hidden="true">+</span> <span class="skills-tag">SplitText</span> <span class="stack-item__note">(CDN)</span> <span class="stack-item__desc">— the engine behind the glitch effect on headings</span>
+        </li>
+        <li class="stack-item">
+          <span class="skills-tag">Drawably</span> <span class="stack-item__note">(CDN)</span> <span class="stack-item__desc">— hand-drawn UI components for the Draft theme</span>
+        </li>
+        <li class="stack-item">
+          <span class="skills-tag">GitHub</span> <span class="stack-item__plus" aria-hidden="true">+</span> <span class="skills-tag">GitHub Actions</span> <span class="stack-item__plus" aria-hidden="true">+</span> <span class="skills-tag">Vercel</span> <span class="stack-item__desc">— automatic deploy to GitHub Pages, with Vercel handling the custom domain for faster deploys</span>
+        </li>
+        <li class="stack-item">
+          <span class="skills-tag">Node.js</span> <span class="stack-item__note">(tools/build-vault.mjs)</span> <span class="stack-item__desc">— local script that encrypts the vault content</span>
+        </li>
+      </ul>
+    </section>
+
     <section class="story-final">
       <div class="about-text">
         <p>Curious about the work this process is actually in service of? <a href="confidential_projects.html">See the projects →</a></p>
@@ -307,8 +369,8 @@
   <script src="js/gsap.js" defer></script>
   <script src="js/theme.js" defer></script>
   <script src="js/draft.js?v=30" defer></script>
-  <script src="js/draft-draw.js?v=50" defer></script>
-  <script src="js/nav.js?v=2" defer></script>
+  <script src="js/draft-draw.js?v=55" defer></script>
+  <script src="js/nav.js" defer></script>
   <script src="js/favicon-animate.js" defer></script>
 
 </body>
