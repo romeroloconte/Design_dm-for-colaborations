@@ -1,10 +1,8 @@
 (function () {
   "use strict";
 
-  console.log("[draft-draw] script version 25 running");
-  console.log("[draft-draw] script version 25 running");
+  console.log("[draft-draw] script version 27 running");
 
-  var MEDIA_QUERY = "(min-width: 800px)";
   var STYLE_ID = "draft-draw-style";
   var UI_ID = "draft-draw-ui";
   var CANVAS_ID = "draft-draw-canvas";
@@ -19,7 +17,6 @@
   ];
   var WIDTHS = [2, 4, 8];
 
-  var mq = window.matchMedia(MEDIA_QUERY);
   var mounted = false;
   var eraserMode = false;
   var toolActive = false;
@@ -340,7 +337,7 @@
 
   function mount() {
     if (mounted) return;
-    if (!isDraft() || !mq.matches) return;
+    if (!isDraft()) return;
     mounted = true;
     injectStyle();
     createCanvas();
@@ -389,13 +386,6 @@
     if (e.detail && e.detail.theme === "draft") mount();
     else unmount();
   });
-
-  if (mq.addEventListener) {
-    mq.addEventListener("change", function () {
-      if (!mq.matches) unmount();
-      else if (isDraft()) mount();
-    });
-  }
 
   function init() {
     if (isDraft()) mount();

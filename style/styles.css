@@ -171,27 +171,81 @@ body {
 .site-nav__link:hover {
   color: var(--accent-interactive);
 }
+.site-nav__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.site-nav__toggle::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+}
+.site-nav__toggle:hover {
+  color: var(--accent-interactive);
+}
+.site-nav__toggle:focus-visible {
+  outline: 2px solid var(--accent-interactive);
+  outline-offset: 2px;
+}
+.site-nav__toggle-bar {
+  transform-origin: center;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bar--top {
+  transform: translateY(4px) rotate(45deg);
+}
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bar--mid {
+  opacity: 0;
+}
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bar--bottom {
+  transform: translateY(-4px) rotate(-45deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-nav__toggle-bar {
+    transition: none;
+  }
+}
+.site-nav__links {
+  display: contents;
+}
 @media (max-width: 768px) {
-  .site-nav {
+  .site-nav__toggle {
+    display: inline-flex;
+  }
+  .site-nav__link--back,
+  .site-nav__toggle,
+  .theme-switcher {
+    position: relative;
+    z-index: 2;
+  }
+  .site-nav__links {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 16px;
-    /* deja libre la columna del switcher, que sale del flujo */
-    padding-right: calc(3vw + 72px);
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    background-color: var(--bg-canvas);
   }
-  .site-nav__link--back {
-    margin-right: 0;
+  .site-nav__links.is-open {
+    display: flex;
   }
-  /* .site-nav antepuesto: sube la especificidad para ganarle a
-     `.theme-switcher { position: relative }`, declarada mas abajo */
-  .site-nav .theme-switcher {
-    position: absolute;
-    top: var(--edge-inset);
-    right: 3vw;
-  }
-  .site-nav__link {
-    font-size: 14px;
+  .site-nav__links .site-nav__link {
+    font-size: 20px;
   }
 }
 .theme-switcher {
