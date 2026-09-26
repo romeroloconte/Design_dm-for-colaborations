@@ -7,13 +7,23 @@
   var UI_ID = "draft-draw-ui";
   var CANVAS_ID = "draft-draw-canvas";
   var CURSOR_ID = "draft-draw-cursor";
+  var CDN_BASE = "https://cdn.jsdelivr.net/npm/drawably@0.4.2";
+  var TOOLTIP_DELAY = 600;
+
+  var drawablyModulePromise = null;
+  function loadDrawably() {
+    if (!drawablyModulePromise) {
+      drawablyModulePromise = import(CDN_BASE + "/dist/index.js");
+    }
+    return drawablyModulePromise;
+  }
 
   var COLORS = [
-    "#6B6B6B",
-    "#16a34a",
     "#7c3aed",
+    "#16a34a",
     "#ea580c",
-    "#eab308"
+    "#eab308",
+    "#6B6B6B"
   ];
   var NOTE_COLORS = [
     "#E5E7EB",
@@ -87,7 +97,8 @@
       ".dd-note__close{width:18px;height:18px;border:none;background:transparent;color:rgba(0,0,0,.6);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}" +
       ".dd-note__close svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}" +
       ".dd-note__text{padding:0 10px 12px;font-size:13px;line-height:1.4;color:#141414;outline:none;min-height:80px;word-break:break-word;white-space:pre-wrap;cursor:text;}" +
-      ".dd-note__text:empty::before{content:attr(data-placeholder);opacity:.45;}";
+      ".dd-note__text:empty::before{content:attr(data-placeholder);opacity:.45;}" +
+      ".dd-tooltip{position:fixed;z-index:10002;padding:5px 10px;font-family:var(--font-data,monospace);font-size:11px;line-height:1.3;color:var(--text-primary,#141414);background:var(--bg-surface,#ffffff);border-radius:4px;pointer-events:none;white-space:nowrap;}";
     document.head.appendChild(s);
   }
 
@@ -189,6 +200,68 @@
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
   }
 
+  var activeTooltip = null;
+
+  function hideTooltip() {
+    if (!activeTooltip) return;
+    if (activeTooltip.sketch) activeTooltip.sketch.destroy();
+    activeTooltip.el.remove();
+    activeTooltip = null;
+  }
+
+  function showTooltip(btn, text) {
+    hideTooltip();
+    var tip = document.createElement("div");
+    tip.className = "dd-tooltip";
+    tip.textContent = text;
+    document.body.appendChild(tip);
+
+    var r = btn.getBoundingClientRect();
+    var left = r.left + r.width / 2 - tip.offsetWidth / 2;
+    var top = r.top - tip.offsetHeight - 16;
+    tip.style.left = Math.max(8, left) + "px";
+    tip.style.top = Math.max(8, top) + "px";
+
+    var state = { el: tip, sketch: null };
+    activeTooltip = state;
+
+    loadDrawably().then(function (drawably) {
+      if (activeTooltip !== state) return;
+      state.sketch = drawably.drawablyTooltip(tip, btn, {
+        seed: 64892172,
+        roughness: 0.7,
+        boil: 0.2,
+        width: 1.5,
+        stroke: "#606060"
+      });
+    });
+  }
+
+  function attachTooltip(btn, text) {
+    var timer = null;
+    function cancel() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    }
+    btn.addEventListener("pointerenter", function () {
+      cancel();
+      timer = setTimeout(function () {
+        timer = null;
+        showTooltip(btn, text);
+      }, TOOLTIP_DELAY);
+    });
+    btn.addEventListener("pointerleave", function () {
+      cancel();
+      hideTooltip();
+    });
+    btn.addEventListener("pointerdown", function () {
+      cancel();
+      hideTooltip();
+    });
+  }
+
   function buildUI() {
     uiRoot = document.createElement("div");
     uiRoot.id = UI_ID;
@@ -224,20 +297,21 @@
     var brush = document.createElement("button");
     brush.type = "button";
     brush.className = "dd-tool dd-tool--brush";
-    brush.setAttribute("aria-label", "Pincel");
+    brush.setAttribute("aria-label", "Brush");
     brush.innerHTML = iconBrush();
     brush.addEventListener("click", function () {
       eraserMode = false;
       noteMode = false;
       refreshUI();
     });
+    attachTooltip(brush, "Brush");
     widthRow.appendChild(brush);
 
     WIDTHS.forEach(function (w) {
       var b = document.createElement("button");
       b.type = "button";
       b.className = "dd-width";
-      b.setAttribute("aria-label", "Grosor " + w + "px");
+      b.setAttribute("aria-label", "Width " + w + "px");
       var dot = document.createElement("span");
       var s = Math.max(4, w + 2);
       dot.style.width = s + "px";
@@ -259,38 +333,41 @@
     var toolRow = document.createElement("div");
     toolRow.className = "dd-row";
 
-    var note = document.createElement("button");
-    note.type = "button";
-    note.className = "dd-tool dd-tool--note";
-    note.setAttribute("aria-label", "Nota");
-    note.innerHTML = iconStickyNote();
-    note.addEventListener("click", function () {
-      noteMode = !noteMode;
-      eraserMode = false;
-      refreshUI();
-    });
-    toolRow.appendChild(note);
-
     var eraser = document.createElement("button");
     eraser.type = "button";
     eraser.className = "dd-tool dd-tool--eraser";
-    eraser.setAttribute("aria-label", "Borrador");
+    eraser.setAttribute("aria-label", "Eraser");
     eraser.innerHTML = iconEraser();
     eraser.addEventListener("click", function () {
       eraserMode = !eraserMode;
       noteMode = false;
       refreshUI();
     });
+    attachTooltip(eraser, "Eraser");
     toolRow.appendChild(eraser);
+
+    var note = document.createElement("button");
+    note.type = "button";
+    note.className = "dd-tool dd-tool--note";
+    note.setAttribute("aria-label", "Sticky note");
+    note.innerHTML = iconStickyNote();
+    note.addEventListener("click", function () {
+      noteMode = !noteMode;
+      eraserMode = false;
+      refreshUI();
+    });
+    attachTooltip(note, "Sticky note");
+    toolRow.appendChild(note);
 
     var clear = document.createElement("button");
     clear.type = "button";
     clear.className = "dd-tool";
-    clear.setAttribute("aria-label", "Limpiar todo");
+    clear.setAttribute("aria-label", "Clear all");
     clear.innerHTML = iconTrash();
     clear.addEventListener("click", function () {
       clearCanvas();
     });
+    attachTooltip(clear, "Clear all");
     toolRow.appendChild(clear);
 
     toolbar.appendChild(toolRow);
@@ -300,7 +377,7 @@
     toggle.type = "button";
     toggle.className = "dd-btn";
     toggle.id = "dd-toggle";
-    toggle.setAttribute("aria-label", "Modo dibujo");
+    toggle.setAttribute("aria-label", "Draw mode");
     toggle.innerHTML = iconDraw();
     toggle.addEventListener("click", function () {
       toolActive = !toolActive;
@@ -405,7 +482,7 @@
     var close = document.createElement("button");
     close.type = "button";
     close.className = "dd-note__close";
-    close.setAttribute("aria-label", "Eliminar nota");
+    close.setAttribute("aria-label", "Delete note");
     close.innerHTML = iconClose();
     close.addEventListener("click", function () { removeStickyNote(note); });
     grip.appendChild(close);
